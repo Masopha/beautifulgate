@@ -1,15 +1,15 @@
 'use strict';
 
 require('dotenv').config();
-const express        = require('express');
-const session        = require('express-session');
-const cors           = require('cors');
-const bcrypt         = require('bcryptjs');
-const mongoose       = require('mongoose');
+const express = require('express');
+const cors = require('cors');
+const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 
-const app  = express();
-app.set('trust proxy', 1);
+const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || 'beautifulgate-jwt-secret-key-2025';
 
 /* ══════════════════════════════════════════
    MONGODB CONNECTION
@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => console.error('MongoDB connection error:', err));
 
 /* ══════════════════════════════════════════
-   MONGOOSE SCHEMAS
+   MONGOOSE SCHEMAS (unchanged)
 ══════════════════════════════════════════ */
 const userSchema = new mongoose.Schema({
   fullName:     { type: String, required: true },
@@ -55,14 +55,14 @@ const Visitor = mongoose.model('Visitor', visitorSchema);
 const Message = mongoose.model('Message', messageSchema);
 
 /* ══════════════════════════════════════════
-   CORS
+   CORS - Allow credentials (for JWT header)
 ══════════════════════════════════════════ */
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5500',
   'http://127.0.0.1:5500',
   'http://127.0.0.1:3000',
-  'https://beautifulgate-plum.vercel.app'  // ← replace with your Vercel URL
+  'https://beautifulgate-plum.vercel.app'
 ];
 
 app.use(cors({
@@ -82,45 +82,64 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'beautifulgate-secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure:   process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge:   1000 * 60 * 60 * 8   // 8 hours
-  }
-}));
-
 /* ══════════════════════════════════════════
-   ADMIN CREDENTIALS (env or hardcoded)
+   JWT HELPERS
 ══════════════════════════════════════════ */
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'beautifulgate2025';
-
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
-function generateId(prefix) {
-  return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+function generateToken(user) {
+  const payload = {
+    id: user._id?.toString() || user.id,
+    username: user.username,
+    fullName: user.fullName,
+    email: user.email,
+    role: user.role || 'visitor'
+  };
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: '8h' });
 }
 
-function requireAuth(req, res, next) {
-  if (!req.session.user) return res.status(401).json({ success: false, message: 'Not authenticated' });
+function verifyToken(token) {
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    return null;
+  }
+}
+
+function authenticateJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ success: false, message: 'No token provided' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  const decoded = verifyToken(token);
+
+  if (!decoded) {
+    return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+  }
+
+  req.user = decoded;
   next();
 }
 
 function requireAdmin(req, res, next) {
-  if (!req.session.user || req.session.user.role !== 'admin') {
+  if (!req.user || req.user.role !== 'admin') {
     return res.status(403).json({ success: false, message: 'Admin access required' });
   }
   next();
 }
 
+function generateId(prefix) {
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+}
+
 /* ══════════════════════════════════════════
-   AUTH ROUTES
+   ADMIN CREDENTIALS
+══════════════════════════════════════════ */
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'beautifulgate2025';
+
+/* ══════════════════════════════════════════
+   AUTH ROUTES (JWT-based)
 ══════════════════════════════════════════ */
 
 // REGISTER
@@ -155,7 +174,6 @@ app.post('/api/register', async (req, res) => {
 
     await newUser.save();
 
-    // Create visitor record
     await Visitor.findOneAndUpdate(
       { userId: newUser._id.toString() },
       {
@@ -176,7 +194,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// LOGIN
+// LOGIN - Returns JWT token
 app.post('/api/login', async (req, res) => {
   try {
     const { username, password, role } = req.body;
@@ -190,11 +208,9 @@ app.post('/api/login', async (req, res) => {
       if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
         return res.status(401).json({ success: false, message: 'Invalid admin credentials.' });
       }
-      req.session.user = { role: 'admin', username: 'admin', fullName: 'Administrator' };
-      return req.session.save((err) => {
-        if (err) return res.status(500).json({ success: false, message: 'Session error.' });
-        return res.json({ success: true, redirect: 'admin.html' });
-      });
+      const adminUser = { id: 'admin', username: 'admin', fullName: 'Administrator', email: 'admin@beautifulgate.org', role: 'admin' };
+      const token = generateToken(adminUser);
+      return res.json({ success: true, token, redirect: 'admin.html', user: adminUser });
     }
 
     // Visitor login
@@ -208,14 +224,6 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Incorrect password.' });
     }
 
-    req.session.user = {
-      id:       user._id.toString(),
-      username: user.username,
-      fullName: user.fullName,
-      email:    user.email,
-      role:     'visitor'
-    };
-
     // Update visitor login time
     await Visitor.findOneAndUpdate(
       { userId: user._id.toString() },
@@ -223,9 +231,18 @@ app.post('/api/login', async (req, res) => {
       { upsert: true }
     );
 
-    return req.session.save((err) => {
-      if (err) return res.status(500).json({ success: false, message: 'Session error.' });
-      return res.json({ success: true, redirect: 'index.html' });
+    const token = generateToken(user);
+    return res.json({
+      success: true,
+      token,
+      redirect: 'index.html',
+      user: {
+        id: user._id.toString(),
+        username: user.username,
+        fullName: user.fullName,
+        email: user.email,
+        role: 'visitor'
+      }
     });
 
   } catch (err) {
@@ -234,25 +251,38 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// SESSION CHECK
-app.get('/api/session', (req, res) => {
-  if (req.session.user) {
-    return res.json({ loggedIn: true, user: req.session.user });
+// VERIFY TOKEN endpoint (for checking if stored token is still valid)
+app.post('/api/verify', async (req, res) => {
+  const { token } = req.body;
+  if (!token) {
+    return res.json({ valid: false });
   }
-  return res.json({ loggedIn: false });
+  const decoded = verifyToken(token);
+  if (!decoded) {
+    return res.json({ valid: false });
+  }
+  
+  // For visitor, verify user still exists in DB
+  if (decoded.role === 'visitor' && decoded.id !== 'admin') {
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.json({ valid: false });
+    }
+  }
+  
+  return res.json({ valid: true, user: decoded });
 });
 
-// LOGOUT
+// LOGOUT - Just track logout time (client will discard token)
 app.post('/api/logout', async (req, res) => {
   try {
-    const user = req.session.user;
-    if (user && user.id) {
+    const { userId } = req.body;
+    if (userId && userId !== 'admin') {
       await Visitor.findOneAndUpdate(
-        { userId: user.id },
+        { userId: userId },
         { logoutAt: new Date(), status: 'offline' }
       );
     }
-    req.session.destroy(() => {});
     return res.json({ success: true });
   } catch (err) {
     return res.json({ success: true });
@@ -284,11 +314,11 @@ app.post('/api/contact', async (req, res) => {
 });
 
 /* ══════════════════════════════════════════
-   ADMIN ROUTES
+   ADMIN ROUTES (require JWT + admin role)
 ══════════════════════════════════════════ */
 
 // Get all visitors
-app.get('/api/admin/visitors', requireAdmin, async (req, res) => {
+app.get('/api/admin/visitors', authenticateJWT, requireAdmin, async (req, res) => {
   try {
     const visitors = await Visitor.find().sort({ loginAt: -1 });
     return res.json({ success: true, data: visitors });
@@ -298,7 +328,7 @@ app.get('/api/admin/visitors', requireAdmin, async (req, res) => {
 });
 
 // Get all registered users
-app.get('/api/admin/users', requireAdmin, async (req, res) => {
+app.get('/api/admin/users', authenticateJWT, requireAdmin, async (req, res) => {
   try {
     const users = await User.find({}, '-password').sort({ registeredAt: -1 });
     return res.json({ success: true, data: users });
@@ -308,7 +338,7 @@ app.get('/api/admin/users', requireAdmin, async (req, res) => {
 });
 
 // Delete a user
-app.delete('/api/admin/users/:id', requireAdmin, async (req, res) => {
+app.delete('/api/admin/users/:id', authenticateJWT, requireAdmin, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
     await Visitor.findOneAndDelete({ userId: req.params.id });
@@ -319,7 +349,7 @@ app.delete('/api/admin/users/:id', requireAdmin, async (req, res) => {
 });
 
 // Get all messages
-app.get('/api/admin/messages', requireAdmin, async (req, res) => {
+app.get('/api/admin/messages', authenticateJWT, requireAdmin, async (req, res) => {
   try {
     const messages = await Message.find().sort({ submittedAt: -1 });
     return res.json({ success: true, data: messages });
@@ -329,7 +359,7 @@ app.get('/api/admin/messages', requireAdmin, async (req, res) => {
 });
 
 // Mark message as read
-app.patch('/api/admin/messages/:id/read', requireAdmin, async (req, res) => {
+app.patch('/api/admin/messages/:id/read', authenticateJWT, requireAdmin, async (req, res) => {
   try {
     await Message.findByIdAndUpdate(req.params.id, { read: true });
     return res.json({ success: true });
@@ -339,7 +369,7 @@ app.patch('/api/admin/messages/:id/read', requireAdmin, async (req, res) => {
 });
 
 // Delete a message
-app.delete('/api/admin/messages/:id', requireAdmin, async (req, res) => {
+app.delete('/api/admin/messages/:id', authenticateJWT, requireAdmin, async (req, res) => {
   try {
     await Message.findByIdAndDelete(req.params.id);
     return res.json({ success: true, message: 'Message deleted.' });
@@ -349,7 +379,7 @@ app.delete('/api/admin/messages/:id', requireAdmin, async (req, res) => {
 });
 
 // Dashboard stats
-app.get('/api/admin/stats', requireAdmin, async (req, res) => {
+app.get('/api/admin/stats', authenticateJWT, requireAdmin, async (req, res) => {
   try {
     const [totalUsers, onlineVisitors, totalMessages, unreadMessages] = await Promise.all([
       User.countDocuments(),
@@ -368,4 +398,5 @@ app.get('/api/admin/stats', requireAdmin, async (req, res) => {
 ══════════════════════════════════════════ */
 app.listen(PORT, () => {
   console.log(`Beautiful Gate backend running on port ${PORT}`);
+  console.log(`JWT authentication enabled`);
 });
