@@ -191,7 +191,10 @@ app.post('/api/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Invalid admin credentials.' });
       }
       req.session.user = { role: 'admin', username: 'admin', fullName: 'Administrator' };
-      return res.json({ success: true, redirect: 'admin.html' });
+      return req.session.save((err) => {
+        if (err) return res.status(500).json({ success: false, message: 'Session error.' });
+        return res.json({ success: true, redirect: 'admin.html' });
+      });
     }
 
     // Visitor login
@@ -220,7 +223,10 @@ app.post('/api/login', async (req, res) => {
       { upsert: true }
     );
 
-    return res.json({ success: true, redirect: 'index.html' });
+    return req.session.save((err) => {
+      if (err) return res.status(500).json({ success: false, message: 'Session error.' });
+      return res.json({ success: true, redirect: 'index.html' });
+    });
 
   } catch (err) {
     console.error('Login error:', err);
