@@ -26,18 +26,22 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--brown-dark);
       min-height: 100vh;
+      /* KEY FIX: allow scroll, remove overflow:hidden */
+      overflow-x: hidden;
+      overflow-y: auto;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 2rem;
+      padding: 2rem 1rem;
       position: relative;
-      overflow: hidden;
     }
-    /* Decorative background blobs */
+
+    /* Decorative background blobs — fixed so they don't affect scroll */
     body::before {
       content: '';
       position: fixed;
@@ -46,6 +50,7 @@
       background: radial-gradient(circle, rgba(232,132,58,0.18) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
+      z-index: 0;
     }
     body::after {
       content: '';
@@ -55,16 +60,22 @@
       background: radial-gradient(circle, rgba(61,184,193,0.14) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
+      z-index: 0;
     }
+
     .auth-wrap {
       position: relative;
       z-index: 2;
       width: 100%;
       max-width: 440px;
+      /* ensure it's always fully visible */
+      margin: auto 0;
+      padding: 1rem 0 2rem;
     }
+
     .auth-brand {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .brand-logo {
       width: 72px; height: 72px;
@@ -91,16 +102,18 @@
       font-size: 0.82rem;
       margin-top: 0.3rem;
     }
+
     .auth-card {
       background: var(--off-white);
       border-radius: 20px;
-      padding: 2.5rem;
+      padding: 2rem;
       box-shadow: var(--shadow-lg);
     }
+
     .tab-row {
       display: flex;
       gap: 0.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .tab-btn {
       flex: 1;
@@ -123,6 +136,7 @@
     }
     .tab-panel { display: none; }
     .tab-panel.active { display: block; }
+
     .auth-card h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.3rem;
@@ -132,10 +146,11 @@
     .auth-card .sub {
       color: var(--text-light);
       font-size: 0.82rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.25rem;
     }
+
     .fg {
-      margin-bottom: 1.1rem;
+      margin-bottom: 1rem;
       display: flex;
       flex-direction: column;
     }
@@ -164,7 +179,7 @@
       box-shadow: 0 0 0 3px rgba(232,132,58,0.12);
     }
     .pw-wrap { position: relative; }
-    .pw-wrap input { padding-right: 3rem; }
+    .pw-wrap input { padding-right: 3.5rem; }
     .pw-toggle {
       position: absolute;
       right: 0.9rem; top: 50%;
@@ -179,6 +194,7 @@
       padding: 0;
       font-family: 'DM Sans', sans-serif;
     }
+
     .btn-auth {
       width: 100%;
       padding: 0.9rem;
@@ -187,17 +203,23 @@
       background: var(--orange);
       color: #fff;
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
       letter-spacing: 0.04em;
       cursor: pointer;
       transition: var(--transition);
       margin-top: 0.5rem;
+      display: block;
     }
-    .btn-auth:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-auth:hover {
+      background: var(--orange-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
     .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .btn-admin { background: var(--teal); }
     .btn-admin:hover { background: var(--teal-dark); }
+
     .error-msg {
       background: #fef2f2;
       border: 1px solid #fca5a5;
@@ -208,19 +230,25 @@
       margin-bottom: 1rem;
       display: none;
     }
+
+    /* ALWAYS VISIBLE footer link */
     .auth-footer {
       text-align: center;
-      margin-top: 1.5rem;
-      color: var(--text-light);
-      font-size: 0.82rem;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0d5ce;
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      font-weight: 500;
     }
     .auth-footer a {
       color: var(--orange);
-      font-weight: 600;
+      font-weight: 700;
       text-decoration: none;
       transition: color 0.2s;
     }
     .auth-footer a:hover { color: var(--orange-light); }
+
     .admin-note {
       background: var(--teal-pale);
       border: 1px solid rgba(61,184,193,0.3);
@@ -232,6 +260,13 @@
       margin-bottom: 1.25rem;
       letter-spacing: 0.04em;
     }
+
+    /* Mobile tweaks */
+    @media (max-width: 480px) {
+      body { padding: 1rem 0.75rem; }
+      .auth-card { padding: 1.5rem; }
+      .brand-name { font-size: 1.3rem; }
+    }
   </style>
 </head>
 <body>
@@ -239,7 +274,8 @@
 <div class="auth-wrap">
   <div class="auth-brand">
     <div class="brand-logo">
-      <img src="images/logo1.jpeg" alt="Beautiful Gate" onerror="this.parentElement.style.background='var(--orange)';this.remove()"/>
+      <img src="images/logo1.jpeg" alt="Beautiful Gate"
+           onerror="this.parentElement.style.background='var(--orange)';this.remove()"/>
     </div>
     <div class="brand-name">beautiful<span>gate</span></div>
     <p class="brand-sub">Lesotho &mdash; Sign in to continue</p>
@@ -259,18 +295,20 @@
       <form onsubmit="doLogin(event,'visitor')" novalidate>
         <div class="fg">
           <label for="v-username">Username</label>
-          <input type="text" id="v-username" placeholder="Your username" required/>
+          <input type="text" id="v-username" placeholder="Your username" required autocomplete="username"/>
         </div>
         <div class="fg">
           <label for="v-password">Password</label>
           <div class="pw-wrap">
-            <input type="password" id="v-password" placeholder="Your password" required/>
+            <input type="password" id="v-password" placeholder="Your password" required autocomplete="current-password"/>
             <button type="button" class="pw-toggle" onclick="togglePw('v-password',this)">Show</button>
           </div>
         </div>
         <button type="submit" class="btn-auth" id="v-btn">Sign In</button>
       </form>
-      <div class="auth-footer">No account yet? <a href="register.html">Register here</a></div>
+      <div class="auth-footer">
+        No account yet? <a href="register.html">Register here</a>
+      </div>
     </div>
 
     <!-- ADMIN -->
@@ -282,12 +320,12 @@
       <form onsubmit="doLogin(event,'admin')" novalidate>
         <div class="fg">
           <label for="a-username">Admin Username</label>
-          <input type="text" id="a-username" placeholder="Admin username" required/>
+          <input type="text" id="a-username" placeholder="Admin username" required autocomplete="username"/>
         </div>
         <div class="fg">
           <label for="a-password">Admin Password</label>
           <div class="pw-wrap">
-            <input type="password" id="a-password" placeholder="Admin password" required/>
+            <input type="password" id="a-password" placeholder="Admin password" required autocomplete="current-password"/>
             <button type="button" class="pw-toggle" onclick="togglePw('a-password',this)">Show</button>
           </div>
         </div>
@@ -300,7 +338,7 @@
 <script>
 (function(){
   var DEV  = 'http://localhost:3000';
- var PROD = 'https://beautifulgate-backend.onrender.com';
+  var PROD = 'https://beautifulgate-backend.onrender.com';
   window.API_BASE_URL = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? DEV : PROD;
 })();
 </script>
@@ -329,6 +367,8 @@ async function doLogin(e, role) {
   const btn      = document.getElementById(isAdmin ? 'a-btn' : 'v-btn');
   const errId    = isAdmin ? 'a-err' : 'v-err';
 
+  document.querySelectorAll('.error-msg').forEach(el => el.style.display = 'none');
+
   if (!username || !password) { showErr(errId, 'Please enter your credentials.'); return; }
 
   btn.disabled = true;
@@ -350,7 +390,7 @@ async function doLogin(e, role) {
       btn.textContent = isAdmin ? 'Admin Sign In' : 'Sign In';
     }
   } catch (err) {
-    showErr(errId, 'Cannot connect to server.');
+    showErr(errId, 'Cannot connect to server. Please try again.');
     btn.disabled = false;
     btn.textContent = isAdmin ? 'Admin Sign In' : 'Sign In';
   }
