@@ -112,6 +112,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
     .topbar {
       background: #fff;
@@ -166,7 +167,7 @@
     /* ── STAT CARDS ── */
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1.25rem;
       margin-bottom: 2rem;
     }
@@ -237,7 +238,6 @@
     }
     .btn-refresh:hover { background: var(--orange-pale); color: var(--orange); border-color: var(--orange); }
 
-    /* Search */
     .search-input {
       padding: 0.5rem 1rem;
       border: 1px solid #e0d5ce;
@@ -245,7 +245,7 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 0.82rem;
       outline: none;
-      width: 220px;
+      width: 200px;
       background: var(--off-white);
       color: var(--text-dark);
       transition: var(--transition);
@@ -328,21 +328,68 @@
     }
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.error { background: #dc2626; color: #fff; }
+
+    /* ── MOBILE SIDEBAR ── */
+    .sidebar-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem; left: 1rem;
+      z-index: 200;
+      background: var(--brown-dark);
+      border: none;
+      color: var(--orange-light);
+      width: 42px; height: 42px;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+    .sidebar-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 150;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-overlay.open { display: block; }
+      .sidebar-toggle { display: flex; }
+      .main { margin-left: 0; }
+      .topbar { padding: 1rem 1rem 1rem 3.5rem; }
+      .page-content { padding: 1rem; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .search-input { width: 140px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .topbar-title { font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
 
+<!-- Mobile sidebar toggle -->
+<button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
 <!-- SIDEBAR -->
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <div class="sidebar-brand-name">beautiful<span>gate</span></div>
     <div class="sidebar-brand-sub">Admin Panel</div>
   </div>
   <nav class="sidebar-nav">
-    <div class="nav-item active" onclick="switchPanel('dashboard', this)">Dashboard</div>
-    <div class="nav-item" onclick="switchPanel('visitors', this)">Visitors</div>
-    <div class="nav-item" onclick="switchPanel('users', this)">Registered Users</div>
-    <div class="nav-item" onclick="switchPanel('messages', this)">Messages</div>
+    <div class="nav-item active" onclick="switchPanel('dashboard', this)">📊 Dashboard</div>
+    <div class="nav-item" onclick="switchPanel('visitors', this)">👥 Visitors</div>
+    <div class="nav-item" onclick="switchPanel('users', this)">🧑‍💼 Registered Users</div>
+    <div class="nav-item" onclick="switchPanel('messages', this)">✉️ Messages</div>
   </nav>
   <div class="sidebar-footer">
     <button class="btn-logout" onclick="adminLogout()">Logout</button>
@@ -387,7 +434,7 @@
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">Recent Users</div>
-          <button class="btn-refresh" onclick="loadStats(); loadUsers();">Refresh</button>
+          <button class="btn-refresh" onclick="loadStats(); loadUsers();">↻ Refresh</button>
         </div>
         <div class="table-wrap">
           <table>
@@ -412,9 +459,10 @@
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">Visitors <small>Login history</small></div>
-          <div style="display:flex;gap:0.75rem;align-items:center;">
-            <input class="search-input" type="text" placeholder="Search..." oninput="filterTable('visitors-body', this.value)"/>
-            <button class="btn-refresh" onclick="loadVisitors()">Refresh</button>
+          <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap">
+            <input class="search-input" type="text" placeholder="Search..."
+                   oninput="filterTable('visitors-body', this.value)"/>
+            <button class="btn-refresh" onclick="loadVisitors()">↻ Refresh</button>
           </div>
         </div>
         <div class="table-wrap">
@@ -443,9 +491,10 @@
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">Registered Users</div>
-          <div style="display:flex;gap:0.75rem;align-items:center;">
-            <input class="search-input" type="text" placeholder="Search..." oninput="filterTable('users-body', this.value)"/>
-            <button class="btn-refresh" onclick="loadUsers()">Refresh</button>
+          <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap">
+            <input class="search-input" type="text" placeholder="Search..."
+                   oninput="filterTable('users-body', this.value)"/>
+            <button class="btn-refresh" onclick="loadUsers()">↻ Refresh</button>
           </div>
         </div>
         <div class="table-wrap">
@@ -473,9 +522,10 @@
       <div class="section-card">
         <div class="section-header">
           <div class="section-title">Contact Messages</div>
-          <div style="display:flex;gap:0.75rem;align-items:center;">
-            <input class="search-input" type="text" placeholder="Search..." oninput="filterTable('messages-body', this.value)"/>
-            <button class="btn-refresh" onclick="loadMessages()">Refresh</button>
+          <div style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap">
+            <input class="search-input" type="text" placeholder="Search..."
+                   oninput="filterTable('messages-body', this.value)"/>
+            <button class="btn-refresh" onclick="loadMessages()">↻ Refresh</button>
           </div>
         </div>
         <div class="table-wrap">
@@ -508,9 +558,17 @@
 /* ── Config ── */
 (function(){
   var DEV  = 'http://localhost:3000';
-  var PROD = 'https://YOUR-BACKEND.onrender.com';
+  var PROD = 'https://beautifulgate-backend.onrender.com';
   window.API_BASE_URL = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? DEV : PROD;
 })();
+
+/* ── Mobile sidebar ── */
+function toggleSidebar() {
+  const sidebar  = document.getElementById('sidebar');
+  const overlay  = document.getElementById('sidebar-overlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
 
 /* ── Session check ── */
 (async function() {
@@ -539,7 +597,11 @@ function switchPanel(name, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   document.getElementById('panel-' + name).classList.add('active');
-  document.getElementById('topbar-title').childNodes[0].textContent = name.charAt(0).toUpperCase() + name.slice(1) + '\n';
+  document.getElementById('topbar-title').childNodes[0].textContent =
+    name.charAt(0).toUpperCase() + name.slice(1) + '\n';
+  // close mobile sidebar after nav
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
   if (name === 'dashboard') { loadStats(); loadUsers(true); }
   if (name === 'visitors')  loadVisitors();
   if (name === 'users')     loadUsers(false);
@@ -584,10 +646,9 @@ async function loadUsers(dashOnly) {
     const data = await res.json();
     if (!data.success) { toast('Error loading users', true); return; }
 
-    // Dashboard recent 5
     const dashBody = document.getElementById('dash-users-body');
     const recent = data.data.slice(0, 5);
-    dashBody.innerHTML = recent.length ? recent.map((u,i) => `
+    dashBody.innerHTML = recent.length ? recent.map(u => `
       <tr>
         <td>${esc(u.fullName)}</td>
         <td>${esc(u.username)}</td>
@@ -597,7 +658,6 @@ async function loadUsers(dashOnly) {
 
     if (dashOnly) return;
 
-    // Full users table
     const body = document.getElementById('users-body');
     body.innerHTML = data.data.length ? data.data.map((u,i) => `
       <tr>
@@ -615,7 +675,8 @@ async function loadUsers(dashOnly) {
 async function deleteUser(id) {
   if (!confirm('Delete this user? This cannot be undone.')) return;
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/users/' + id, { method: 'DELETE', credentials: 'include' });
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/users/' + id,
+                             { method: 'DELETE', credentials: 'include' });
     const data = await res.json();
     if (data.success) { toast('User deleted.'); loadUsers(false); loadStats(); }
     else toast('Error deleting user.', true);
@@ -668,7 +729,8 @@ async function loadMessages() {
 /* ── Mark message read ── */
 async function markRead(id) {
   try {
-    await fetch(window.API_BASE_URL + '/api/admin/messages/' + id + '/read', { method: 'PATCH', credentials: 'include' });
+    await fetch(window.API_BASE_URL + '/api/admin/messages/' + id + '/read',
+               { method: 'PATCH', credentials: 'include' });
     toast('Marked as read.'); loadMessages(); loadStats();
   } catch(e) { toast('Error.', true); }
 }
@@ -677,7 +739,8 @@ async function markRead(id) {
 async function deleteMessage(id) {
   if (!confirm('Delete this message?')) return;
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/messages/' + id, { method: 'DELETE', credentials: 'include' });
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/messages/' + id,
+                             { method: 'DELETE', credentials: 'include' });
     const data = await res.json();
     if (data.success) { toast('Message deleted.'); loadMessages(); loadStats(); }
     else toast('Error.', true);
@@ -687,7 +750,9 @@ async function deleteMessage(id) {
 /* ── Logout ── */
 async function adminLogout() {
   if (!confirm('Logout from admin panel?')) return;
-  try { await fetch(window.API_BASE_URL + '/api/logout', { method: 'POST', credentials: 'include' }); } catch(e) {}
+  try {
+    await fetch(window.API_BASE_URL + '/api/logout', { method: 'POST', credentials: 'include' });
+  } catch(e) {}
   window.location.href = 'login.html';
 }
 
