@@ -316,25 +316,61 @@ function initFormHandling() {
   const form = document.getElementById('contact-form');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = form.querySelector('[type="submit"]');
+    const btn      = form.querySelector('[type="submit"]');
     const original = btn.innerHTML;
 
+    // Gather fields — form uses fname + lname separately
+    const fname   = (form.querySelector('#fname')?.value   || '').trim();
+    const lname   = (form.querySelector('#lname')?.value   || '').trim();
+    const email   = (form.querySelector('#email')?.value   || '').trim();
+    const subject = (form.querySelector('#subject')?.value || '').trim();
+    const message = (form.querySelector('#message')?.value || '').trim();
+
+    if (!fname || !email || !subject || !message) {
+      btn.innerHTML = '⚠ Please fill in all required fields.';
+      btn.style.background = 'var(--brown-light)';
+      setTimeout(() => { btn.innerHTML = original; btn.style.background = ''; }, 3000);
+      return;
+    }
+
     btn.innerHTML = `<span>Sending…</span>`;
-    btn.disabled = true;
+    btn.disabled  = true;
+
+    try {
+      const res  = await fetch(window.API_BASE_URL + '/api/contact', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({
+          fullName: (fname + ' ' + lname).trim(),
+          email,
+          subject,
+          message
+        })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        btn.innerHTML      = `✓ Message sent! We'll be in touch soon.`;
+        btn.style.background = 'var(--teal)';
+        form.reset();
+      } else {
+        btn.innerHTML      = `⚠ ${data.message || 'Could not send. Please try again.'}`;
+        btn.style.background = 'var(--brown-light)';
+      }
+    } catch (err) {
+      console.error('[BGL] Contact form error:', err);
+      btn.innerHTML      = '⚠ Could not reach server. Please try again later.';
+      btn.style.background = 'var(--brown-light)';
+    }
 
     setTimeout(() => {
-      btn.innerHTML = `✓ Message sent! We'll be in touch soon.`;
-      btn.style.background = 'var(--teal)';
-      form.reset();
-
-      setTimeout(() => {
-        btn.innerHTML = original;
-        btn.style.background = '';
-        btn.disabled = false;
-      }, 4000);
-    }, 1800);
+      btn.innerHTML      = original;
+      btn.style.background = '';
+      btn.disabled       = false;
+    }, 4000);
   });
 }
 
