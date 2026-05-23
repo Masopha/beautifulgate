@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery — Beautiful Gate Lesotho</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="images/logo1.jpeg" type="image/jpeg" />
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-logo">beautiful<span>gate</span></div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+<button id="back-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <div class="lb-inner">
+    <button class="lb-close" id="lb-close">✕</button>
+    <button class="lb-nav lb-prev" id="lb-prev"><i class="fa-solid fa-chevron-left"></i></button>
+    <img id="lb-img" src="" alt="" />
+    <button class="lb-nav lb-next" id="lb-next"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-img">
+      <img src="images/logo1.jpeg" alt="Beautiful Gate Logo" onerror="this.parentElement.innerHTML='<span style=\'font-size:0.5rem;line-height:1.3;text-align:center\'>YOUR<br>LOGO<br>HERE</span>'" />
+    </div>
+    <div class="nav-logo-text">beautiful<span>gate</span><small>Lesotho</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about"        class="nav-link">About</a></li>
+    <li><a href="index.html#mission"      class="nav-link">Mission</a></li>
+    <li><a href="index.html#programs"     class="nav-link">Programs</a></li>
+    <li><a href="index.html#stories"      class="nav-link">Stories</a></li>
+    <li><a href="gallery.html"            class="nav-link active">Gallery</a></li>
+    <li><a href="index.html#get-involved" class="nav-link">Get Involved</a></li>
+    <li><a href="index.html#contact"      class="nav-link">Contact</a></li>
+    <li><a href="index.html#donate"       class="nav-link nav-cta">Donate <i class="fa-solid fa-heart ms-1"></i></a></li>
+  </ul>
+  <div class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="mobile-menu">
+  <a href="index.html#about"        class="nav-link">About</a>
+  <a href="index.html#mission"      class="nav-link">Mission</a>
+  <a href="index.html#programs"     class="nav-link">Programs</a>
+  <a href="index.html#stories"      class="nav-link">Stories</a>
+  <a href="gallery.html"            class="nav-link" style="color:var(--orange-light)">Gallery</a>
+  <a href="index.html#get-involved" class="nav-link">Get Involved</a>
+  <a href="index.html#donate"       class="nav-link" style="color:var(--orange-light)">Donate ♥</a>
+  <a href="index.html#contact"      class="nav-link">Contact</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-breadcrumb">
+    <a href="index.html">Home</a>
+    <span class="sep">›</span>
+    <span>Gallery</span>
+  </div>
+  <div class="page-hero-content">
+    <h1>Our <span>Gallery</span></h1>
+    <p>Glimpses of joy, love, and hope from inside Beautiful Gate Lesotho — every image a testimony of lives transformed.</p>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-section" id="ticker-bar">
+  <div class="ticker-wrap">
+    <span class="ticker-label">🔔 News</span>
+    <div class="ticker-track">
+      <div class="ticker-inner">
+        <span>💛 Help us raise <strong>R10,000</strong> for baby formula — <a href="index.html#donate">Donate Now →</a></span>
+        <span>🏗️ Peka Campus BG2 expansion underway — <a href="index.html#programs">Learn more</a></span>
+        <span>🚌 Fundraising for the Beautiful Shuttle — R16,557 raised of R450,000 goal</span>
+        <span>💛 Help us raise <strong>R10,000</strong> for baby formula — <a href="index.html#donate">Donate Now →</a></span>
+        <span>🏗️ Peka Campus BG2 expansion underway — <a href="index.html#programs">Learn more</a></span>
+        <span>🚌 Fundraising for the Beautiful Shuttle — R16,557 raised of R450,000 goal</span>
+      </div>
+    </div>
+    <button class="ticker-close-btn" onclick="document.getElementById('ticker-bar').remove()">✕</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PHOTO GALLERY
+══════════════════════════════════════ -->
+<section>
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">Photo Gallery</div>
+      <h2 class="section-title">Life at <span class="accent">Beautiful Gate</span></h2>
+    </div>
+
+    <!-- Filters -->
+    <div class="gallery-filters" style="margin-top:32px">
+      <button class="gf-btn active" data-filter="all">All Photos</button>
+      <button class="gf-btn" data-filter="children">Children</button>
+      <button class="gf-btn" data-filter="campus">Campus</button>
+      <button class="gf-btn" data-filter="play">Play &amp; Joy</button>
+      <button class="gf-btn" data-filter="community">Community</button>
+    </div>
+
+    <!-- 15-photo grid — uses your 7 real images recycled in creative layout -->
+    <div class="gallery-grid" id="galleryGrid">
+
+      <!-- Row 1: wide + tall + square -->
+      <div class="g-item wide reveal delay-1" data-cat="children" data-src="images/img1.jpeg">
+        <img src="images/g2.jpg" alt="Children playing on swings at Beautiful Gate" loading="lazy" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Children enjoying the playground — Ha Thetsane, Maseru</div>
+      </div>
+      <div class="g-item tall reveal delay-2" data-cat="campus" data-src="images/img4.jpeg">
+        <img src="images/img4.jpeg" alt="Beautiful Gate Lesotho signboard" loading="lazy" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Our entrance sign — "Together Bringing Hope"</div>
+      </div>
+      <div class="g-item reveal delay-3" data-cat="play" data-src="images/img2.jpeg">
+        <img src="images/g1.jpg" alt="Children running at campus" loading="lazy" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Pure joy — children running free on campus</div>
+      </div>
+      <div class="g-item reveal delay-4" data-cat="play" data-src="images/img2.jpeg">
+        <img src="images/g3.jpg" alt="Children playing outdoors" loading="lazy" style="object-position:right center" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Afternoon outdoor time with friends</div>
+      </div>
+
+      <!-- Row 2: square + square + wide -->
+      <div class="g-item reveal delay-1" data-cat="children" data-src="images/img3.jpeg">
+        <img src="images/3.jpeg" alt="Children on climbing frame" loading="lazy" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Fearless climbers on the jungle gym</div>
+      </div>
+      <div class="g-item reveal delay-2" data-cat="campus" data-src="images/img4.jpeg">
+        <img src="images/img2.jpeg" alt="Beautiful Gate campus" loading="lazy" style="object-position:bottom center" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">The Beautiful Gate campus, Maseru</div>
+      </div>
+      <div class="g-item wide reveal delay-3" data-cat="campus" data-src="images/2.jpeg">
+        <img src="images/img3.jpeg" alt="Campus buildings and grounds" loading="lazy" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Our campus grounds and residential houses</div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="g-item reveal delay-1" data-cat="play" data-src="images/1.jpeg">
+        <img src="images/smile.jpg" alt="Children at swings" loading="lazy" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Swings and smiles — an ordinary afternoon</div>
+      </div>
+      <div class="g-item reveal delay-2" data-cat="children" data-src="images/img1.jpeg">
+        <img src="images/free.jpg" alt="A child at play" loading="lazy" style="object-position:center top" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Every child deserves to feel free</div>
+      </div>
+      <div class="g-item reveal delay-3" data-cat="community" data-src="images/img3.jpeg">
+        <img src="images/family.jpg" alt="Children together" loading="lazy" style="object-position:top center" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Together — the beautiful family of BG Lesotho</div>
+      </div>
+      <div class="g-item reveal delay-4" data-cat="campus" data-src="images/2.jpeg">
+        <img src="images/home.jpg" alt="Green roofs and campus" loading="lazy" style="object-position:right" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">The green-roofed houses our children call home</div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="g-item wide reveal delay-1" data-cat="children" data-src="images/img2.jpeg">
+        <img src="images/future.jpg" alt="Children running toward the camera" loading="lazy" style="object-position:center 30%" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Running toward a brighter future</div>
+      </div>
+      <div class="g-item reveal delay-2" data-cat="community" data-src="images/3.jpeg">
+        <img src="images/23 yrs.jpg" alt="Birthday celebration" loading="lazy" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">23rd Birthday celebration — June 2024</div>
+      </div>
+      <div class="g-item reveal delay-3" data-cat="play" data-src="images/img3.jpeg">
+        <img src="images/adventure.jpg" alt="Children on playground equipment" loading="lazy" style="object-position:bottom" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Playground adventures — every child needs play</div>
+      </div>
+      <div class="g-item reveal delay-4" data-cat="community" data-src="images/1.jpeg">
+        <img src="images/family.jpg" alt="Children and caregivers" loading="lazy" style="object-position:top" />
+        <div class="g-overlay"><span class="g-zoom"><i class="fa-solid fa-magnifying-glass-plus"></i></span></div>
+        <div class="g-caption">Our housemothers and children — a real family</div>
+      </div>
+
+</section>
+
+
+<div class="video-grid">
+  <!-- Video 1 -->
+  <div class="v-card reveal delay-1">
+    <div class="v-thumb">
+      <video controls preload="metadata">
+        <source src="videos/play time.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="v-play"></div>
+    <div class="v-lbl">
+      <strong>A Day in the Life</strong>
+      Morning routines, play, at Beautiful Gate Lesotho
+    </div>
+  </div>
+
+  <!-- Video 2 -->
+  <div class="v-card reveal delay-2" >
+    <div class="v-thumb">
+      <video controls preload="metadata" >
+        <source src="videos/NOTHER.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="v-play"></div>
+    <div class="v-lbl">
+      <strong>Is a cold weather</strong>
+      Play outside-cold
+    </div>
+  </div>
+
+  <!-- Video 3 -->
+  <div class="v-card reveal delay-3" >
+    <div class="v-thumb">
+      <video controls preload="metadata" >
+        <source src="videos/s.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="v-play"></div>
+    <div class="v-lbl">
+      <strong>Play ground is always grateful</strong>
+      Time for socialisation and companionship
+    </div>
+  </div>
+
+  <!-- Video 4 -->
+  <div class="v-card reveal delay-4" >
+    <div class="v-thumb">
+      <video controls preload="metadata" >
+        <source src="videos/Welcome to Beautiful Gate Lesotho.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="v-play"></div>
+    <div class="v-lbl">
+      <strong>Why We Do What We Do</strong>
+      Staff share their hearts about caring for Lesotho's most vulnerable children
+    </div>
+  </div>
+</div>
+
+
+<!-- CTA STRIP -->
+<section style="background:var(--brown-dark);padding:60px 5%;text-align:center">
+  <div style="max-width:600px;margin:0 auto" class="reveal">
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--white);font-weight:800;margin-bottom:14px">
+      These images tell our story.<br><span style="color:var(--orange-light);font-style:italic">Help us write the next chapter.</span>
+    </h2>
+    <p style="color:rgba(255,255,255,0.6);font-size:0.93rem;margin-bottom:32px;line-height:1.65">
+      Every donation, prayer, and visit helps us create more moments of joy, safety, and love for the children of Lesotho.
+    </p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="index.html#donate" class="btn-primary">Donate Now <i class="fa-solid fa-heart ms-1"></i></a>
+      <a href="index.html#get-involved" class="btn-ghost">Get Involved</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">beautiful<span>gate</span></div>
+      <div class="footer-tagline">Lesotho · Est. 2001</div>
+      <p class="footer-desc">A family dedicated to reaching orphaned, abandoned, and neglected children in Lesotho — giving them love, dignity, and hope.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/BeautifulGateMaseruLesotho" target="_blank" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="mailto:opsmanager@beautifulgatelesotho.org" class="social-btn"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.beautifulgatelesotho.org" target="_blank" class="social-btn"><i class="fa-solid fa-globe"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html#about">About Us</a></li>
+        <li><a href="index.html#programs">Our Programs</a></li>
+        <li><a href="index.html#impact">Our Impact</a></li>
+        <li><a href="gallery.html">Photo Gallery</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get Involved</h4>
+      <ul>
+        <li><a href="index.html#donate">Donate Online</a></li>
+        <li><a href="index.html#get-involved">Volunteer</a></li>
+        <li><a href="index.html#get-involved">Join Prayer Team</a></li>
+        <li><a href="mailto:donations@beautifulgatelesotho.org">International Donations</a></li>
+        <li><a href="mailto:finance@beautifulgatelesotho.org">SA Bank Transfer</a></li>
+      </ul>
+    </div>
+    <div class="footer-col footer-newsletter">
+      <h4>Stay Updated</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:4px">Subscribe for our quarterly newsletter and monthly prayer updates.</p>
+      <div class="newsletter-input-wrap">
+        <input type="email" class="newsletter-input" placeholder="Your email address" />
+        <button class="newsletter-btn">Subscribe</button>
+      </div>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:10px">📞 +266 2831 1680 &nbsp;|&nbsp; +266 5092 3329</p>
+    </div>
+  </div>
+  <div class="footer-bottom" style="max-width:1280px;margin:0 auto">
+    <p class="footer-copy">© 2024 Beautiful Gate Lesotho. Made with ❤️ for the children of Lesotho.</p>
+    <div class="footer-links">
+      <a href="index.html#about">Privacy Policy</a>
+      <a href="index.html#about">Terms of Use</a>
+      <a href="mailto:opsmanager@beautifulgatelesotho.org">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // ─── GALLERY FILTER ───
+  const filterBtns = document.querySelectorAll('.gf-btn');
+  const items = document.querySelectorAll('.g-item');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      items.forEach(item => {
+        if (filter === 'all' || item.dataset.cat === filter) {
+          item.style.display = '';
+          setTimeout(() => { item.style.opacity = '1'; item.style.transform = ''; }, 10);
+        } else {
+          item.style.opacity = '0';
+          item.style.transform = 'scale(0.95)';
+          setTimeout(() => { item.style.display = 'none'; }, 300);
+        }
+      });
+    });
+  });
+
+  // ─── LIGHTBOX ───
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbClose = document.getElementById('lb-close');
+  const lbPrev = document.getElementById('lb-prev');
+  const lbNext = document.getElementById('lb-next');
+
+  let currentIdx = 0;
+  const allItems = Array.from(items);
+
+  function openLightbox(idx) {
+    currentIdx = idx;
+    const src = allItems[idx].dataset.src;
+    const alt = allItems[idx].querySelector('img').alt;
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  items.forEach((item, idx) => {
+    item.addEventListener('click', () => openLightbox(idx));
+  });
+
+  lbClose.addEventListener('click', closeLightbox);
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+
+  lbPrev.addEventListener('click', (e) => {
+    e.stopPropagation();
+    currentIdx = (currentIdx - 1 + allItems.length) % allItems.length;
+    lbImg.src = allItems[currentIdx].dataset.src;
+    lbImg.alt = allItems[currentIdx].querySelector('img').alt;
+  });
+
+  lbNext.addEventListener('click', (e) => {
+    e.stopPropagation();
+    currentIdx = (currentIdx + 1) % allItems.length;
+    lbImg.src = allItems[currentIdx].dataset.src;
+    lbImg.alt = allItems[currentIdx].querySelector('img').alt;
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lbPrev.click();
+    if (e.key === 'ArrowRight') lbNext.click();
+  });
+
+  // Touch swipe for lightbox
+  let touchStartX = 0;
+  lb.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  lb.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) lbNext.click();
+      else lbPrev.click();
+    }
+  });
+</script>
+</body>
+</html>

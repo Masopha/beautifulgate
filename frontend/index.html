@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Beautiful Gate Lesotho — Together Bringing Hope to Children & Families. Caring for orphaned, abandoned and vulnerable children in Maseru, Lesotho since 2001." />
+  <title>Beautiful Gate Lesotho — Together Bringing Hope to Children & Families</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="images/logo1.jpeg" type="image/jpeg" />
+  <script src="js/config.js"></script>
+   <script src="js/auth.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     LOADER
+══════════════════════════════════════ -->
+<div id="loader">
+  <div class="loader-logo">beautiful<span>gate</span></div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+</div>
+
+<!-- Custom Cursor -->
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+
+<!-- Back to Top -->
+<button id="back-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════ -->
+<nav id="navbar">
+  <!-- LOGO SPACE — insert your logo image here -->
+  <a href="#hero" class="nav-logo">
+    <div class="nav-logo-img">
+      <img src="images/logo1.jpeg" alt="Beautiful Gate Logo" onerror="this.parentElement.innerHTML='<span style=\'font-size:0.5rem;line-height:1.3;text-align:center\'>YOUR<br>LOGO<br>HERE</span>'" />
+    </div>
+    <div class="nav-logo-text">
+      beautiful<span>gate</span>
+      <small>Lesotho</small>
+    </div>
+  </a>
+
+  <!-- Desktop Links -->
+  <ul class="nav-links">
+    <li><a href="#about"        class="nav-link" data-section="about">About</a></li>
+    <li><a href="#mission"      class="nav-link" data-section="mission">Mission</a></li>
+    <li><a href="#programs"     class="nav-link" data-section="programs">Programs</a></li>
+    <li><a href="#stories"      class="nav-link" data-section="stories">Stories</a></li>
+    <li><a href="gallery.html"  class="nav-link">Gallery</a></li>
+    <li><a href="#get-involved" class="nav-link" data-section="get-involved">Get Involved</a></li>
+    <li><a href="#contact"      class="nav-link" data-section="contact">Contact</a></li>
+    <li><a href="#donate"       class="nav-link nav-cta">Donate <i class="fa-solid fa-heart ms-1"></i></a></li>
+  </ul>
+
+  <!-- Hamburger -->
+  <div class="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu">
+  <a href="#about"        class="nav-link">About</a>
+  <a href="#mission"      class="nav-link">Mission</a>
+  <a href="#programs"     class="nav-link">Programs</a>
+  <a href="#stories"      class="nav-link">Stories</a>
+  <a href="gallery.html"  class="nav-link">Gallery</a>
+  <a href="#get-involved" class="nav-link">Get Involved</a>
+  <a href="#donate"       class="nav-link" style="color:var(--orange-light)">Donate ♥</a>
+  <a href="#contact"      class="nav-link">Contact</a>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     HERO SECTION
+══════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+  <div class="hero-blob hero-blob-3"></div>
+  <div class="particles-container"></div>
+  <div class="hero-diagonal"></div>
+
+  <div class="hero-content">
+    <!-- Text Side -->
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span>Est. 2001 · Maseru, Lesotho</span>
+      </div>
+
+      <h1 class="hero-title">
+        Together Bringing<br>
+        <span class="highlight">Hope</span> to Children<br>
+        &amp; <span class="teal-word">Families</span>
+      </h1>
+
+      <p class="hero-sub">
+        We are a <strong>family</strong> — a safe haven for orphaned and vulnerable children since 2001, giving them love, dignity, and the chance to just be kids.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#donate" class="btn-primary">
+          Make a Difference
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#about" class="btn-ghost">
+          <i class="fa-solid fa-play" style="font-size:0.7rem"></i>
+          Our Story
+        </a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-number">23+</div>
+          <div class="hero-stat-label">Years Serving</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">75+</div>
+          <div class="hero-stat-label">Children in Care</div>
+        </div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat">
+          <div class="hero-stat-number">∞</div>
+          <div class="hero-stat-label">Hope Given</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Side -->
+    <div class="hero-visual">
+      <div class="hero-img-frame">
+        <img src="images/img1.jpeg" alt="Children at Beautiful Gate Lesotho playing happily" loading="eager" />
+      </div>
+
+      <!-- Floating Cards -->
+      <div class="hero-float-card hero-float-card-1">
+        <div class="hero-float-icon icon-orange">🏡</div>
+        <div class="hero-float-val">Safe Home</div>
+        <div class="hero-float-lbl">For every child</div>
+      </div>
+      <div class="hero-float-card hero-float-card-2">
+        <div class="hero-float-icon icon-teal">❤️</div>
+        <div class="hero-float-val">6,200+</div>
+        <div class="hero-float-lbl">Supporters Worldwide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     TICKER BAR (moved here, below hero)
+══════════════════════════════════════ -->
+<div class="ticker-section" id="ticker-bar">
+  <div class="ticker-wrap">
+    <span class="ticker-label">🔔 News</span>
+    <div class="ticker-track">
+      <div class="ticker-inner">
+        <span>💛 Help us raise <strong>R10,000</strong> for baby formula this month — <a href="#donate">Donate Now →</a></span>
+        <span>🏗️ Peka Campus (BG2) expansion underway — <a href="#programs">Learn more</a></span>
+        <span>🚌 Fundraising for the Beautiful Shuttle — R16,557 raised of R450,000 goal</span>
+        <span>📸 Check out our new <a href="gallery.html">Photo Gallery</a></span>
+        <span>💛 Help us raise <strong>R10,000</strong> for baby formula this month — <a href="#donate">Donate Now →</a></span>
+        <span>🏗️ Peka Campus (BG2) expansion underway — <a href="#programs">Learn more</a></span>
+        <span>🚌 Fundraising for the Beautiful Shuttle — R16,557 raised of R450,000 goal</span>
+        <span>📸 Check out our new <a href="gallery.html">Photo Gallery</a></span>
+      </div>
+    </div>
+    <button class="ticker-close-btn" onclick="document.getElementById('ticker-bar').remove()" aria-label="Close">✕</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     ABOUT SECTION
+══════════════════════════════════════ -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="about-grid">
+      <!-- Images -->
+      <div class="about-images reveal-left">
+        <div class="about-img-main">
+          <img src="images/img2.jpeg" alt="Children running and playing at Beautiful Gate campus" loading="lazy" />
+        </div>
+        <div class="about-img-secondary">
+          <img src="images/3.jpeg" alt="Children on playground equipment" loading="lazy" />
+        </div>
+        <div class="about-badge">
+          <div class="about-badge-num">20+</div>
+          <div class="about-badge-txt">Years of<br>Love</div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="about-content reveal-right">
+        <div class="section-eyebrow">Who We Are</div>
+        <h2 class="section-title">
+          A Family, Not Just<br>an <span class="accent">Organization</span>
+        </h2>
+
+        <div class="about-mission">
+          "Assisting vulnerable children (0–5 yrs) in Lesotho to confidently embrace their future, walking with Christ, living with hope, now and for eternity."
+        </div>
+
+        <p class="section-sub">
+          Founded in 2001 in Ha Thetsane Lesia, Maseru. In a country where 2 in 5 people survive on less than $1 a day and 1 in 4 are HIV positive, children are painfully vulnerable. We exist to give them their childhood back — and find them forever families.
+        </p>
+
+        <div class="about-features" style="margin-top:32px">
+          <div class="about-feature reveal delay-1">
+            <div class="about-feature-icon">🏠</div>
+            <div class="about-feature-text">
+              <h4>Safe Housing</h4>
+              <p>Warm, secure homes on our Maseru campus</p>
+            </div>
+          </div>
+          <div class="about-feature reveal delay-2">
+            <div class="about-feature-icon">📚</div>
+            <div class="about-feature-text">
+              <h4>Education</h4>
+              <p>Preschool through school readiness programs</p>
+            </div>
+          </div>
+          <div class="about-feature reveal delay-3">
+            <div class="about-feature-icon">🍽️</div>
+            <div class="about-feature-text">
+              <h4>Nutrition</h4>
+              <p>Daily meals and specialized baby formula</p>
+            </div>
+          </div>
+          <div class="about-feature reveal delay-4">
+            <div class="about-feature-icon">💊</div>
+            <div class="about-feature-text">
+              <h4>Healthcare</h4>
+              <p>On-site nurse and regular medical check-ups</p>
+            </div>
+          </div>
+          <div class="about-feature reveal delay-5">
+            <div class="about-feature-icon">👨‍👩‍👧</div>
+            <div class="about-feature-text">
+              <h4>Adoption</h4>
+              <p>Local &amp; international adoption facilitation</p>
+            </div>
+          </div>
+          <div class="about-feature reveal delay-1">
+            <div class="about-feature-icon">🙏</div>
+            <div class="about-feature-text">
+              <h4>Faith-Based</h4>
+              <p>Christ-centered care and spiritual nurture</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     MISSION & VISION
+══════════════════════════════════════ -->
+<section id="mission">
+  <div class="mission-wrap">
+    <div class="text-center reveal">
+      <div class="section-eyebrow" style="justify-content:center;color:var(--orange-light)">
+        <span style="background:var(--orange-light);width:28px;height:2px;border-radius:2px;display:inline-block"></span>
+        What Drives Us
+        <span style="background:var(--orange-light);width:28px;height:2px;border-radius:2px;display:inline-block"></span>
+      </div>
+      <h2 class="section-title" style="color:var(--white);margin-top:12px">
+        Our Mission &amp; <span class="accent">Vision</span>
+      </h2>
+      <p class="section-sub" style="color:rgba(255,255,255,0.6);margin:16px auto 0">
+        Every decision we make, every child we hold, is anchored in a purpose greater than ourselves.
+      </p>
+    </div>
+
+    <div class="mission-grid">
+      <div class="mission-card orange reveal delay-1">
+        <div class="mission-card-icon">🎯</div>
+        <h3>Our Mission</h3>
+        <p>To restore dignity, hope, and opportunity to vulnerable children and families through holistic care, education, and development — rooted in Christian faith and driven by love.</p>
+      </div>
+      <div class="mission-card teal reveal delay-2">
+        <div class="mission-card-icon">🌟</div>
+        <h3>Our Vision</h3>
+        <p>Thriving communities where every child is valued, protected, educated, and given the opportunity to reach their full God-given potential — in a forever family.</p>
+      </div>
+    </div>
+
+    <div class="values-strip reveal" style="justify-content:center">
+      <div class="value-pill"><span>❤️</span> Dignity</div>
+      <div class="value-pill"><span>🕊️</span> Hope</div>
+      <div class="value-pill"><span>🤝</span> Community</div>
+      <div class="value-pill"><span>✝️</span> Faith</div>
+      <div class="value-pill"><span>🌱</span> Growth</div>
+      <div class="value-pill"><span>🛡️</span> Protection</div>
+      <div class="value-pill"><span>📖</span> Education</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     PROGRAMS SECTION
+══════════════════════════════════════ -->
+<section id="programs">
+  <div class="section-wrap">
+    <div class="d-flex align-items-end justify-content-between flex-wrap gap-4 mb-2">
+      <div class="reveal">
+        <div class="section-eyebrow">What We Do</div>
+        <h2 class="section-title">Our <span class="accent">Programs</span></h2>
+        <p class="section-sub">Six pillars of care addressing every dimension of a child's wellbeing.</p>
+      </div>
+      <a href="https://www.beautifulgatelesotho.org/lesotho-projects" class="btn-ghost reveal" style="border-color:var(--brown);color:var(--brown);flex-shrink:0">
+        See All Programs <i class="fa-solid fa-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="programs-grid">
+      <!-- Card 1 -->
+      <div class="program-card reveal delay-1">
+        <div class="program-card-img">
+          <img src="images/p1.jpg" alt="Child care program" loading="lazy" />
+          <div class="program-card-img-overlay"></div>
+        </div>
+        <div class="program-card-body">
+          <span class="program-tag">Core Program</span>
+          <h3>Child Care &amp; Protection</h3>
+          <p>Safe, loving homes for orphaned, abandoned, and neglected children aged newborn to 5 years — giving them the dignity every child deserves.</p>
+        </div>
+        <div class="program-card-footer">
+          <a href="https://www.beautifulgatelesotho.org/lesotho-projects" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="program-card reveal delay-2">
+        <div class="program-card-img">
+          <img src="images/p2.jpg" alt="Children running at campus" loading="lazy" />
+          <div class="program-card-img-overlay"></div>
+        </div>
+        <div class="program-card-body">
+          <span class="program-tag">Education</span>
+          <h3>Education &amp; Development</h3>
+          <p>From early childhood development at Sefate Sa Bophelo English Medium School to school readiness — investing in every child's future.</p>
+        </div>
+        <div class="program-card-footer">
+          <a href="https://www.beautifulgatelesotho.org/lesotho-projects" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="program-card reveal delay-3">
+        <div class="program-card-img">
+          <img src="images/p3.jpg" alt="Children at playground" loading="lazy" />
+          <div class="program-card-img-overlay"></div>
+        </div>
+        <div class="program-card-body">
+          <span class="program-tag">Families</span>
+          <h3>Adoption &amp; Reunification</h3>
+          <p>Our ultimate goal — uniting children with forever families locally and internationally through joyful, faith-filled adoption ceremonies.</p>
+        </div>
+        <div class="program-card-footer">
+          <a href="https://www.beautifulgatelesotho.org/lesotho-projects" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="program-card reveal delay-1">
+        <div class="program-card-img">
+          <img src="images/p4.jpg" alt="Beautiful Gate signboard" loading="lazy" />
+          <div class="program-card-img-overlay"></div>
+        </div>
+        <div class="program-card-body">
+          <span class="program-tag">Healthcare</span>
+          <h3>Health &amp; Nutrition</h3>
+          <p>Baby formula, nutritious meals, an on-site nurse, and regular medical screenings ensure every child thrives physically and cognitively.</p>
+        </div>
+        <div class="program-card-footer">
+          <a href="https://www.beautifulgatelesotho.org/lesotho-projects class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="program-card reveal delay-2">
+        <div class="program-card-img">
+          <img src="images/p5.jpg" alt="Children swinging at playground" loading="lazy" />
+          <div class="program-card-img-overlay"></div>
+        </div>
+        <div class="program-card-body">
+          <span class="program-tag">Community</span>
+          <h3>Community Outreach</h3>
+          <p>Partnering with local communities, volunteers, and faith-based organizations to strengthen families and prevent child vulnerability.</p>
+        </div>
+        <div class="program-card-footer">
+          <a href="https://www.beautifulgatelesotho.org/lesotho-projects" class="program-link">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="program-card reveal delay-3">
+        <div class="program-card-img">
+          <img src="images/p6.jpg" alt="Beautiful Gate campus buildings" loading="lazy" />
+          <div class="program-card-img-overlay"></div>
+        </div>
+        <div class="program-card-body">
+          <span class="program-tag">Expansion</span>
+          <h3>Peka Project: BG2</h3>
+          <p>Our growing dream — a second campus in Peka, Leribe for children aged 6+ and those with special needs. Guard house &amp; gateway complete.</p>
+        </div>
+        <div class="program-card-footer">
+          <a href="#donate" class="program-link">Support this <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     IMPACT STATS
+══════════════════════════════════════ -->
+<section id="impact">
+  <div class="impact-wrap">
+    <div class="impact-header">
+      <div class="reveal">
+        <div class="section-eyebrow" style="color:var(--orange-light)">
+          <span style="background:var(--orange-light);width:28px;height:2px;display:inline-block;border-radius:2px"></span>
+          Our Impact
+        </div>
+        <h2 class="section-title" style="color:var(--white)">
+          Numbers That Tell<br>a <span class="accent">Story</span>
+        </h2>
+      </div>
+      <p class="reveal" style="color:rgba(255,255,255,0.55);max-width:380px;font-size:0.95rem;line-height:1.7;align-self:flex-end">
+        Behind every number is a child who now has a name, a home, a future, and a family who loves them.
+      </p>
+    </div>
+
+    <div class="stats-grid reveal">
+      <div class="stat-block">
+        <div class="stat-number" data-count="23" data-suffix="+" data-prefix="">23+</div>
+        <div class="stat-label">Years of<br>Faithful Service</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number" data-count="75" data-suffix="+" data-prefix="">75+</div>
+        <div class="stat-label">Children<br>Currently in Care</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number" data-count="6200" data-suffix="+" data-prefix="">6,200+</div>
+        <div class="stat-label">Global<br>Supporters</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-number" data-count="100" data-suffix="%" data-prefix="">100%</div>
+        <div class="stat-label">Love &amp;<br>Commitment</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     STORIES / BLOG
+══════════════════════════════════════ -->
+<section id="stories">
+  <div class="section-wrap">
+    <div class="d-flex align-items-end justify-content-between flex-wrap gap-4 mb-5">
+      <div class="reveal">
+        <div class="section-eyebrow">From Our Hearts</div>
+        <h2 class="section-title">Stories of <span class="teal">Hope</span></h2>
+        <p class="section-sub">Real moments. Real children. Real transformation.</p>
+      </div>
+      <a href="https://www.beautifulgatelesotho.org/lesotho-blog" class="btn-ghost reveal" style="border-color:var(--brown);color:var(--brown);flex-shrink:0">
+        View All Stories <i class="fa-solid fa-arrow-right ms-1"></i>
+      </a>
+    </div>
+
+    <div class="stories-grid">
+      <!-- Featured -->
+      <a href="https://www.beautifulgatelesotho.org/lesotho-blog" class="story-featured reveal-left">
+        <div class="story-featured-img">
+          <img src="images/s1.jpg" alt="Beautiful Gate 23rd birthday" loading="lazy" />
+        </div>
+        <div class="story-featured-body">
+          <div class="story-date">June 25, 2024</div>
+          <h3>A Happy 23rd Birthday to Beautiful Gate Lesotho!</h3>
+          <p>Twenty-three years of walking in faith, caring for the most vulnerable, and trusting God to provide every single day. We celebrate this milestone with profound gratitude — for the children, the staff, the donors, and God who makes it all possible.</p>
+        </div>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="stories-sidebar">
+        <a href="https://www.beautifulgatelesotho.org/lesotho-blog" class="story-mini reveal-right delay-1">
+          <div class="story-mini-img">
+            <img src="images/s2.jpg" alt="Graduation ceremony" loading="lazy" />
+          </div>
+          <div class="story-mini-body">
+            <div class="story-date">December 12, 2022</div>
+            <h4>It's Graduation Season!</h4>
+            <p>Our children sang, performed, and received their certificates at a beautiful preschool graduation — heading to primary school with pride.</p>
+          </div>
+        </a>
+        <a href="https://www.beautifulgatelesotho.org/lesotho-blog" class="story-mini reveal-right delay-2">
+          <div class="story-mini-img">
+            <img src="images/s3.webp" alt="Adoption celebration" loading="lazy" />
+          </div>
+          <div class="story-mini-body">
+            <div class="story-date">March 5, 2021</div>
+            <h4>A Long-Awaited Celebration</h4>
+            <p>Long-term volunteers Thabo and 'Mathapelo Robbert officially welcomed their daughter — a moment worth every tear of joy.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     GET INVOLVED
+══════════════════════════════════════ -->
+<section id="get-involved">
+  <div class="section-wrap">
+    <div class="text-center reveal">
+      <div class="section-eyebrow" style="justify-content:center">Join Our Family</div>
+      <h2 class="section-title text-center">
+        Three Ways to Make a <span class="accent">Difference</span>
+      </h2>
+      <p class="section-sub text-center mx-auto">
+        You don't have to be in Lesotho to change a child's life. Every prayer, rand, and hour matters.
+      </p>
+    </div>
+
+    <div class="involved-grid" style="margin-top:60px">
+      <!-- Give -->
+      <div class="involved-card reveal delay-1">
+        <div class="involved-icon">💛</div>
+        <h3>Give</h3>
+        <p>Whether a once-off gift or monthly commitment, your donation sustains daily operations. R6,000 (~$366) covers one child's full care for a month.</p>
+        <a href="#donate" class="btn-card btn-card-orange">Donate Now <i class="fa-solid fa-heart ms-1"></i></a>
+      </div>
+      <!-- Volunteer -->
+      <div class="involved-card reveal delay-2">
+        <div class="involved-icon">🤝</div>
+        <h3>Volunteer</h3>
+        <p>We welcome outreach teams, skilled volunteers (plumbing, carpentry, special needs therapy), and urgently need a volunteer fundraiser for international donor growth.</p>
+        <a href="#contact" class="btn-card btn-card-teal">Get Involved <i class="fa-solid fa-arrow-right ms-1"></i></a>
+      </div>
+      <!-- Pray -->
+      <div class="involved-card reveal delay-3">
+        <div class="involved-icon">🙏</div>
+        <h3>Pray</h3>
+        <p>Join our global prayer team. Receive our quarterly newsletter and monthly prayer updates, trusting God alongside us for every child's tomorrow.</p>
+        <a href="https://www.beautifulgatelesotho.org/lesotho-get-involved" class="btn-card btn-card-brown">Join Prayer Team <i class="fa-solid fa-hands-praying ms-1"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     DONATE SECTION
+══════════════════════════════════════ -->
+<section id="donate">
+  <div class="donate-wrap">
+    <!-- Text -->
+    <div class="donate-text reveal-left">
+      <div class="section-eyebrow">Support Our Work</div>
+      <h2 class="section-title">
+        Be the Reason a<br>Child <span style="color:var(--brown-dark);font-style:italic">Smiles</span>
+      </h2>
+      <p class="section-sub" style="margin-bottom:0">
+        Your gift provides a safe bed, warm meal, school bag, and a hug for a child who has known abandonment. Be part of our family.
+      </p>
+
+      <div class="donate-amounts" style="margin-top:32px">
+        <button class="amount-btn" onclick="selectAmount(this, 'R500')">
+          R500 <small>~$27 USD</small>
+        </button>
+        <button class="amount-btn" onclick="selectAmount(this, 'R1,500')">
+          R1,500 <small>~$82 USD</small>
+        </button>
+        <button class="amount-btn active" onclick="selectAmount(this, 'R3,000')">
+          R3,000 <small>~$163 USD</small>
+        </button>
+        <button class="amount-btn" onclick="selectAmount(this, 'R6,000')">
+          R6,000 <small>Full month</small>
+        </button>
+        <button class="amount-btn" onclick="selectAmount(this, 'R12,000')">
+          R12,000 <small>2 children</small>
+        </button>
+        <button class="amount-btn" onclick="selectAmount(this, 'custom')">
+          Other <small>Any amount</small>
+        </button>
+      </div>
+
+      <a href="https://www.beautifulgatelesotho.org/lesotho-donate" target="_blank" rel="noopener" class="donate-cta" style="display:inline-flex;text-decoration:none;margin-top:4px">
+        <i class="fa-solid fa-heart"></i>
+        Donate Securely Online
+        <i class="fa-solid fa-external-link-alt" style="font-size:0.8rem;opacity:0.7"></i>
+      </a>
+
+      <p style="font-size:0.75rem;color:rgba(255,255,255,0.55);margin-top:12px">
+        Also accepting: <strong>Canada</strong> via PayPal · <strong>South Africa</strong> via bank transfer · <strong>USA</strong> via AFBGMI<br>
+        Contact <a href="mailto:donations@beautifulgatelesotho.org" style="color:rgba(255,255,255,0.8)">donations@beautifulgatelesotho.org</a>
+      </p>
+    </div>
+
+    <!-- Visual -->
+    <div class="donate-visual reveal-right">
+      <div class="donate-card">
+        <div class="donate-card-head">
+          <div class="donate-card-icon">📊</div>
+          <div>
+            <h3>Where Your Money Goes</h3>
+            <p>100% transparent — every rand counted</p>
+          </div>
+        </div>
+        <div class="donate-breakdown">
+          <div class="breakdown-item">
+            <span class="breakdown-lbl">Child Care &amp; Food</span>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar bar-orange" data-width="48%" style="width:0%"></div>
+            </div>
+            <span class="breakdown-pct">48%</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-lbl">Staffing</span>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar bar-teal" data-width="35%" style="width:0%"></div>
+            </div>
+            <span class="breakdown-pct">35%</span>
+          </div>
+          <div class="breakdown-item">
+            <span class="breakdown-lbl">Utilities &amp; Maintenance</span>
+            <div class="breakdown-bar-wrap">
+              <div class="breakdown-bar bar-brown" data-width="17%" style="width:0%"></div>
+            </div>
+            <span class="breakdown-pct">17%</span>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--off-white)">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span style="font-size:0.8rem;color:var(--text-mid)">August Need of Month: Baby Formula</span>
+            <span style="font-size:0.8rem;font-weight:700;color:var(--orange)">R3,467 / R10,000</span>
+          </div>
+          <div style="height:6px;background:var(--off-white);border-radius:10px;overflow:hidden">
+            <div style="width:0%;height:100%;background:var(--orange);border-radius:10px;transition:width 1.5s ease" id="need-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial mini -->
+      <div style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:var(--radius-md);padding:24px;margin-top:20px;backdrop-filter:blur(10px)">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--white);line-height:1.6;font-style:italic;margin-bottom:12px">
+          "Beautiful Gate is providing love and hope for so many amazing kids. It will be forever part of our family."
+        </div>
+        <div style="font-size:0.78rem;color:rgba(255,255,255,0.55)">— Sarah Munson, UK Volunteer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     CONTACT SECTION
+══════════════════════════════════════ -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="text-center reveal" style="margin-bottom:16px">
+      <div class="section-eyebrow" style="justify-content:center">Get In Touch</div>
+      <h2 class="section-title text-center">We'd Love to <span class="teal">Hear</span> From You</h2>
+      <p class="section-sub text-center mx-auto">Whether you want to visit, volunteer, donate, or learn more — our doors are open.</p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Info -->
+      <div class="reveal-left">
+        <div class="contact-detail">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Our Location</h4>
+            <p>Ha Thetsane Lesia, Maseru, Lesotho<br>
+            PO Box 13763, Maseru 100, Lesotho</p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <a href="tel:+26628311680">+266 2831 1680</a><br>
+            <a href="tel:+26650923329">+266 5092 3329</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h4>Email</h4>
+            <p><strong>General:</strong> <a href="mailto:opsmanager@beautifulgatelesotho.org">opsmanager@beautifulgatelesotho.org</a></p>
+            <p><strong>Director:</strong> <a href="mailto:opsdirector@beautifulgatelesotho.org">opsdirector@beautifulgatelesotho.org</a></p>
+            <p><strong>Donations:</strong> <a href="mailto:donations@beautifulgatelesotho.org">donations@beautifulgatelesotho.org</a></p>
+            <p><strong>Volunteer:</strong> <a href="mailto:bglvolunteercoordinator@gmail.com">bglvolunteercoordinator@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">🌐</div>
+          <div>
+            <h4>Online</h4>
+            <a href="https://www.beautifulgatelesotho.org" target="_blank">www.beautifulgatelesotho.org</a><br>
+            <a href="https://www.facebook.com/BeautifulGateMaseruLesotho" target="_blank">Facebook: Beautiful Gate Maseru Lesotho</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h4>Visitors</h4>
+            <p>By appointment only. Please contact us in advance to arrange a visit or outreach team.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form reveal-right">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--brown-dark);margin-bottom:24px">
+          Send Us a Message
+        </h3>
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="fname" class="form-control" placeholder="Your first name" required />
+            </div>
+            <div class="form-group">
+              <label for="lname">Last Name</label>
+              <input type="text" id="lname" name="lname" class="form-control" placeholder="Your last name" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">I'm interested in…</label>
+            <select id="subject" name="subject" class="form-control">
+              <option value="">Please select</option>
+              <option>Donating</option>
+              <option>Volunteering</option>
+              <option>Visiting / Outreach Team</option>
+              <option>Adoption Information</option>
+              <option>Prayer Partnership</option>
+              <option>General Enquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="form-control" placeholder="Tell us how you'd like to get involved or any questions you have…" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-100" style="justify-content:center;border-radius:var(--radius-sm);padding:16px">
+            Send Message <i class="fa-solid fa-paper-plane ms-2"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <!-- Brand -->
+    <div class="footer-brand">
+      <div class="footer-logo">beautiful<span>gate</span></div>
+      <div class="footer-tagline">Lesotho · Est. 2001</div>
+      <p class="footer-desc">
+        A family dedicated to reaching orphaned, abandoned, and neglected children in Lesotho — giving them love, dignity, and hope for a beautiful future.
+      </p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/BeautifulGateMaseruLesotho" target="_blank" class="social-btn" aria-label="Facebook">
+          <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="mailto:opsmanager@beautifulgatelesotho.org" class="social-btn" aria-label="Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+        <a href="https://www.beautifulgatelesotho.org" target="_blank" class="social-btn" aria-label="Website">
+          <i class="fa-solid fa-globe"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#mission">Mission &amp; Vision</a></li>
+        <li><a href="#programs">Our Programs</a></li>
+        <li><a href="#impact">Our Impact</a></li>
+        <li><a href="#stories">Stories of Hope</a></li>
+        <li><a href="gallery.html">Photo Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Get Involved -->
+    <div class="footer-col">
+      <h4>Get Involved</h4>
+      <ul>
+        <li><a href="#donate">Donate Online</a></li>
+        <li><a href="#get-involved">Volunteer</a></li>
+        <li><a href="#get-involved">Join Prayer Team</a></li>
+        <li><a href="mailto:donations@beautifulgatelesotho.org">International Donations</a></li>
+        <li><a href="mailto:finance@beautifulgatelesotho.org">SA Bank Transfer</a></li>
+        <li><a href="#stories">Read Our Blog</a></li>
+      </ul>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="footer-col footer-newsletter">
+      <h4>Stay Updated</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:4px">
+        Subscribe for our quarterly newsletter, monthly needs, and prayer updates.
+      </p>
+      <div class="newsletter-input-wrap">
+        <input type="email" class="newsletter-input" placeholder="Your email address" />
+        <button class="newsletter-btn">Subscribe</button>
+      </div>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:10px">
+        📞 +266 2831 1680 &nbsp;|&nbsp; +266 5092 3329
+      </p>
+    </div>
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="footer-bottom" style="max-width:1280px;margin:0 auto">
+    <p class="footer-copy">
+      © 2024 Beautiful Gate Lesotho. Made with ❤️ for the children of Lesotho.<br>
+      <span style="font-size:0.72rem;opacity:0.6">Together Bringing Hope to Children &amp; Families</span>
+    </p>
+    <div class="footer-links">
+      <a href="#about">Privacy Policy</a>
+      <a href="#about">Terms of Use</a>
+      <a href="mailto:opsmanager@beautifulgatelesotho.org">Admin</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+  function selectAmount(btn, amount) {
+    document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const needBar = document.getElementById('need-bar');
+  if (needBar) {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        setTimeout(() => needBar.style.width = '34.67%', 500);
+        obs.disconnect();
+      }
+    }, { threshold: 0.4 });
+    obs.observe(needBar);
+  }
+
+  document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) {
+        const target = parseFloat(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        const prefix = el.dataset.prefix || '';
+        const dur = 2200;
+        const start = performance.now();
+        const isDecimal = String(target).includes('.');
+        function tick(ts) {
+          const prog = Math.min((ts - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - prog, 3);
+          const cur = target * eased;
+          el.textContent = prefix + (isDecimal ? cur.toFixed(1) : Math.floor(cur).toLocaleString()) + suffix;
+          if (prog < 1) requestAnimationFrame(tick);
+          else el.textContent = prefix + (isDecimal ? target : target.toLocaleString()) + suffix;
+        }
+        requestAnimationFrame(tick);
+        obs.unobserve(el);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(el);
+  });
+</script>
+
+</body>
+</html>

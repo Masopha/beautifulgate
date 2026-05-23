@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Beautiful Gate Lesotho</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --brown:        #5C3D2E;
+      --brown-dark:   #3E2A1E;
+      --brown-mid:    #4A3025;
+      --brown-light:  #8B6355;
+      --orange:       #E8843A;
+      --orange-light: #F4A65A;
+      --orange-pale:  #FDF0E4;
+      --teal:         #3DB8C1;
+      --teal-dark:    #2A8A92;
+      --teal-pale:    #E4F7F8;
+      --off-white:    #FAF8F5;
+      --text-dark:    #2D1E16;
+      --text-mid:     #6B4E3D;
+      --text-light:   #A07860;
+      --sidebar-w:    240px;
+      --shadow-md:    0 4px 20px rgba(92,61,46,0.12);
+      --shadow-lg:    0 8px 32px rgba(92,61,46,0.16);
+      --transition:   0.3s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--brown-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 100;
+    }
+    .sidebar-brand {
+      padding: 1.75rem 1.5rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .sidebar-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--orange-light);
+    }
+    .sidebar-brand-name span { color: var(--teal); }
+    .sidebar-brand-sub {
+      font-size: 0.68rem;
+      color: var(--brown-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+    .sidebar-nav {
+      flex: 1;
+      padding: 1.25rem 0;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      color: var(--brown-light);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border-left: 3px solid transparent;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--orange-light); }
+    .nav-item.active {
+      background: rgba(232,132,58,0.12);
+      color: var(--orange-light);
+      border-left-color: var(--orange);
+    }
+    .sidebar-footer {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .btn-logout {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid rgba(232,132,58,0.3);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--orange-light);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.04em;
+    }
+    .btn-logout:hover { background: rgba(232,132,58,0.1); }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .topbar-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--brown-dark);
+      text-transform: capitalize;
+    }
+    .topbar-title small {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      font-weight: 400;
+      text-transform: none;
+      margin-top: 0.1rem;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .admin-badge {
+      background: var(--teal-pale);
+      color: var(--teal-dark);
+      border: 1px solid rgba(61,184,193,0.3);
+      border-radius: 100px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── PAGE CONTENT ── */
+    .page-content {
+      padding: 2rem;
+      flex: 1;
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ── STAT CARDS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      border-left: 4px solid var(--orange);
+    }
+    .stat-card.teal { border-left-color: var(--teal); }
+    .stat-card.brown { border-left-color: var(--brown); }
+    .stat-card.green { border-left-color: #16a34a; }
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--brown-dark);
+      line-height: 1;
+    }
+
+    /* ── SECTION CARD ── */
+    .section-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 1.5rem;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--brown-dark);
+    }
+    .section-title small {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      color: var(--text-light);
+      font-weight: 400;
+      margin-left: 0.5rem;
+    }
+    .btn-refresh {
+      padding: 0.45rem 1rem;
+      border: 1px solid #e0d5ce;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-mid);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-refresh:hover { background: var(--orange-pale); color: var(--orange); border-color: var(--orange); }
+
+    /* Search */
+    .search-input {
+      padding: 0.5rem 1rem;
+      border: 1px solid #e0d5ce;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      outline: none;
+      width: 220px;
+      background: var(--off-white);
+      color: var(--text-dark);
+      transition: var(--transition);
+    }
+    .search-input:focus { border-color: var(--orange); }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    thead tr { border-bottom: 2px solid #f0e8e1; }
+    th {
+      text-align: left;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+    td { padding: 0.75rem 0.85rem; border-bottom: 1px solid #f5ede8; color: var(--text-mid); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--orange-pale); }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 100px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .badge-online  { background: #dcfce7; color: #16a34a; }
+    .badge-offline { background: #f3f4f6; color: #6b7280; }
+    .badge-unread  { background: var(--orange-pale); color: var(--orange); }
+    .badge-read    { background: var(--teal-pale); color: var(--teal-dark); }
+    .btn-del {
+      padding: 0.3rem 0.7rem;
+      border: 1px solid #fca5a5;
+      border-radius: 6px;
+      background: #fef2f2;
+      color: #dc2626;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-del:hover { background: #dc2626; color: #fff; }
+    .btn-read {
+      padding: 0.3rem 0.7rem;
+      border: 1px solid rgba(61,184,193,0.3);
+      border-radius: 6px;
+      background: var(--teal-pale);
+      color: var(--teal-dark);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-right: 0.4rem;
+    }
+    .btn-read:hover { background: var(--teal); color: #fff; }
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-light);
+      font-size: 0.88rem;
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      background: var(--brown-dark);
+      color: var(--orange-light);
+      padding: 0.85rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: #dc2626; color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-name">beautiful<span>gate</span></div>
+    <div class="sidebar-brand-sub">Admin Panel</div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-item active" onclick="switchPanel('dashboard', this)">Dashboard</div>
+    <div class="nav-item" onclick="switchPanel('visitors', this)">Visitors</div>
+    <div class="nav-item" onclick="switchPanel('users', this)">Registered Users</div>
+    <div class="nav-item" onclick="switchPanel('messages', this)">Messages</div>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="adminLogout()">Logout</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">
+      Dashboard
+      <small>Beautiful Gate Lesotho Admin</small>
+    </div>
+    <div class="topbar-right">
+      <span class="admin-badge">Administrator</span>
+    </div>
+  </div>
+
+  <div class="page-content">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Registered Users</div>
+          <div class="stat-value" id="stat-users">—</div>
+        </div>
+        <div class="stat-card teal">
+          <div class="stat-label">Online Now</div>
+          <div class="stat-value" id="stat-online">—</div>
+        </div>
+        <div class="stat-card brown">
+          <div class="stat-label">Total Messages</div>
+          <div class="stat-value" id="stat-messages">—</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">Unread Messages</div>
+          <div class="stat-value" id="stat-unread">—</div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">Recent Users</div>
+          <button class="btn-refresh" onclick="loadStats(); loadUsers();">Refresh</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Registered</th>
+              </tr>
+            </thead>
+            <tbody id="dash-users-body">
+              <tr><td colspan="4" class="empty-state">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── VISITORS ── -->
+    <div class="panel" id="panel-visitors">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">Visitors <small>Login history</small></div>
+          <div style="display:flex;gap:0.75rem;align-items:center;">
+            <input class="search-input" type="text" placeholder="Search..." oninput="filterTable('visitors-body', this.value)"/>
+            <button class="btn-refresh" onclick="loadVisitors()">Refresh</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Last Login</th>
+                <th>Last Logout</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="visitors-body">
+              <tr><td colspan="7" class="empty-state">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── USERS ── -->
+    <div class="panel" id="panel-users">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">Registered Users</div>
+          <div style="display:flex;gap:0.75rem;align-items:center;">
+            <input class="search-input" type="text" placeholder="Search..." oninput="filterTable('users-body', this.value)"/>
+            <button class="btn-refresh" onclick="loadUsers()">Refresh</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Registered</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-body">
+              <tr><td colspan="6" class="empty-state">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MESSAGES ── -->
+    <div class="panel" id="panel-messages">
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-title">Contact Messages</div>
+          <div style="display:flex;gap:0.75rem;align-items:center;">
+            <input class="search-input" type="text" placeholder="Search..." oninput="filterTable('messages-body', this.value)"/>
+            <button class="btn-refresh" onclick="loadMessages()">Refresh</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Received</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="messages-body">
+              <tr><td colspan="7" class="empty-state">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-content -->
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── Config ── */
+(function(){
+  var DEV  = 'http://localhost:3000';
+  var PROD = 'https://YOUR-BACKEND.onrender.com';
+  window.API_BASE_URL = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? DEV : PROD;
+})();
+
+/* ── Session check ── */
+(async function() {
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/session', { credentials: 'include' });
+    const data = await res.json();
+    if (!data.loggedIn || data.user.role !== 'admin') {
+      window.location.href = 'login.html';
+    }
+  } catch(e) {
+    window.location.href = 'login.html';
+  }
+})();
+
+/* ── Toast ── */
+function toast(msg, isError) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => { el.className = 'toast'; }, 3000);
+}
+
+/* ── Panel switching ── */
+function switchPanel(name, el) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('topbar-title').childNodes[0].textContent = name.charAt(0).toUpperCase() + name.slice(1) + '\n';
+  if (name === 'dashboard') { loadStats(); loadUsers(true); }
+  if (name === 'visitors')  loadVisitors();
+  if (name === 'users')     loadUsers(false);
+  if (name === 'messages')  loadMessages();
+}
+
+/* ── Format date ── */
+function fmt(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── Filter table ── */
+function filterTable(bodyId, query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('#' + bodyId + ' tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+/* ── Load stats ── */
+async function loadStats() {
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/stats', { credentials: 'include' });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('stat-users').textContent    = data.data.totalUsers;
+      document.getElementById('stat-online').textContent   = data.data.onlineVisitors;
+      document.getElementById('stat-messages').textContent = data.data.totalMessages;
+      document.getElementById('stat-unread').textContent   = data.data.unreadMessages;
+    }
+  } catch(e) { toast('Error loading stats', true); }
+}
+
+/* ── Load users ── */
+async function loadUsers(dashOnly) {
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/users', { credentials: 'include' });
+    const data = await res.json();
+    if (!data.success) { toast('Error loading users', true); return; }
+
+    // Dashboard recent 5
+    const dashBody = document.getElementById('dash-users-body');
+    const recent = data.data.slice(0, 5);
+    dashBody.innerHTML = recent.length ? recent.map((u,i) => `
+      <tr>
+        <td>${esc(u.fullName)}</td>
+        <td>${esc(u.username)}</td>
+        <td>${esc(u.email)}</td>
+        <td>${fmt(u.registeredAt)}</td>
+      </tr>`).join('') : '<tr><td colspan="4" class="empty-state">No users yet.</td></tr>';
+
+    if (dashOnly) return;
+
+    // Full users table
+    const body = document.getElementById('users-body');
+    body.innerHTML = data.data.length ? data.data.map((u,i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td>${esc(u.fullName)}</td>
+        <td>${esc(u.username)}</td>
+        <td>${esc(u.email)}</td>
+        <td>${fmt(u.registeredAt)}</td>
+        <td><button class="btn-del" onclick="deleteUser('${u._id}')">Delete</button></td>
+      </tr>`).join('') : '<tr><td colspan="6" class="empty-state">No users yet.</td></tr>';
+  } catch(e) { toast('Error loading users', true); }
+}
+
+/* ── Delete user ── */
+async function deleteUser(id) {
+  if (!confirm('Delete this user? This cannot be undone.')) return;
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/users/' + id, { method: 'DELETE', credentials: 'include' });
+    const data = await res.json();
+    if (data.success) { toast('User deleted.'); loadUsers(false); loadStats(); }
+    else toast('Error deleting user.', true);
+  } catch(e) { toast('Error deleting user.', true); }
+}
+
+/* ── Load visitors ── */
+async function loadVisitors() {
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/visitors', { credentials: 'include' });
+    const data = await res.json();
+    if (!data.success) { toast('Error loading visitors', true); return; }
+    const body = document.getElementById('visitors-body');
+    body.innerHTML = data.data.length ? data.data.map((v,i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td>${esc(v.fullName)}</td>
+        <td>${esc(v.username)}</td>
+        <td>${esc(v.email)}</td>
+        <td>${fmt(v.loginAt)}</td>
+        <td>${fmt(v.logoutAt)}</td>
+        <td><span class="badge badge-${v.status}">${esc(v.status)}</span></td>
+      </tr>`).join('') : '<tr><td colspan="7" class="empty-state">No visitors yet.</td></tr>';
+  } catch(e) { toast('Error loading visitors', true); }
+}
+
+/* ── Load messages ── */
+async function loadMessages() {
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/messages', { credentials: 'include' });
+    const data = await res.json();
+    if (!data.success) { toast('Error loading messages', true); return; }
+    const body = document.getElementById('messages-body');
+    body.innerHTML = data.data.length ? data.data.map((m,i) => `
+      <tr>
+        <td>${i+1}</td>
+        <td>${esc(m.fullName)}</td>
+        <td>${esc(m.email)}</td>
+        <td>${esc(m.subject)}</td>
+        <td>${fmt(m.submittedAt)}</td>
+        <td><span class="badge badge-${m.read?'read':'unread'}">${m.read?'Read':'Unread'}</span></td>
+        <td>
+          ${!m.read ? `<button class="btn-read" onclick="markRead('${m._id}')">Mark Read</button>` : ''}
+          <button class="btn-del" onclick="deleteMessage('${m._id}')">Delete</button>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="7" class="empty-state">No messages yet.</td></tr>';
+  } catch(e) { toast('Error loading messages', true); }
+}
+
+/* ── Mark message read ── */
+async function markRead(id) {
+  try {
+    await fetch(window.API_BASE_URL + '/api/admin/messages/' + id + '/read', { method: 'PATCH', credentials: 'include' });
+    toast('Marked as read.'); loadMessages(); loadStats();
+  } catch(e) { toast('Error.', true); }
+}
+
+/* ── Delete message ── */
+async function deleteMessage(id) {
+  if (!confirm('Delete this message?')) return;
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/admin/messages/' + id, { method: 'DELETE', credentials: 'include' });
+    const data = await res.json();
+    if (data.success) { toast('Message deleted.'); loadMessages(); loadStats(); }
+    else toast('Error.', true);
+  } catch(e) { toast('Error.', true); }
+}
+
+/* ── Logout ── */
+async function adminLogout() {
+  if (!confirm('Logout from admin panel?')) return;
+  try { await fetch(window.API_BASE_URL + '/api/logout', { method: 'POST', credentials: 'include' }); } catch(e) {}
+  window.location.href = 'login.html';
+}
+
+/* ── Init ── */
+window.addEventListener('DOMContentLoaded', () => {
+  loadStats();
+  loadUsers(true);
+});
+</script>
+</body>
+</html>

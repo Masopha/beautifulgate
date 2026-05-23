@@ -1,0 +1,129 @@
+{
+  "site": {
+    "name": "Beautiful Gate Lesotho",
+    "tagline": "Together Bringing Hope to Children & Families",
+    "slogan": "Be the reason a child smiles.",
+    "founded": 2001,
+    "location": "Ha Thetsane Lesia, Maseru, Lesotho",
+    "email": {
+      "general": "opsmanager@beautifulgatelesotho.org",
+      "director": "opsdirector@beautifulgatelesotho.org",
+      "donations_intl": "donations@beautifulgatelesotho.org",
+      "donations_local": "bglprmanager@gmail.com",
+      "volunteer": "bglvolunteercoordinator@gmail.com",
+      "finance": "finance@beautifulgatelesotho.org"
+    },
+    "phone": ["+266 2831 1680", "+266 5092 3329"],
+    "postal": "PO Box 13763, Maseru 100, Lesotho",
+    "website": "www.beautifulgatelesotho.org",
+    "facebook": "BeautifulGateMaseruLesotho"
+  },
+  "stats": [
+    { "number": 23, "suffix": "+", "label": "Years of Service", "prefix": "" },
+    { "number": 75, "suffix": "+", "label": "Children Cared For", "prefix": "" },
+    { "number": 366, "suffix": "", "label": "Cost Per Child / Month (USD)", "prefix": "$" },
+    { "number": 5000000, "suffix": "", "label": "Annual Budget (Rand)", "prefix": "R" }
+  ],
+  "programs": [
+    {
+      "title": "Child Care & Protection",
+      "tag": "Core Program",
+      "description": "We provide safe, loving homes for orphaned, abandoned, and neglected children aged newborn to 5 years, giving them the care and dignity every child deserves.",
+      "image": "images/img1.jpeg"
+    },
+    {
+      "title": "Education & Development",
+      "tag": "Education",
+      "description": "From early childhood development at Sefate Sa Bophelo English Medium School to school readiness, we invest in every child's intellectual and emotional growth.",
+      "image": "images/img2.jpeg"
+    },
+    {
+      "title": "Adoption & Family Reunification",
+      "tag": "Families",
+      "description": "Our ultimate goal is to unite children with forever families — locally and internationally — through adoption ceremonies that are celebrations of God's faithfulness.",
+      "image": "images/img3.jpeg"
+    },
+    {
+      "title": "Health & Nutrition",
+      "tag": "Healthcare",
+      "description": "From baby formula and nutritious meals to medical check-ups and a dedicated on-site nurse, we ensure every child's physical wellbeing is prioritized.",
+      "image": "images/img4.jpeg"
+    },
+    {
+      "title": "Community Outreach",
+      "tag": "Community",
+      "description": "We partner with local communities, volunteers, and faith-based organizations to strengthen families and prevent child abandonment before it happens.",
+      "image": "images/1.jpeg"
+    },
+    {
+      "title": "Peka Expansion Project",
+      "tag": "New Project",
+      "description": "Beautiful Gate 2 in Peka, Leribe will serve older children (6+) and those with special needs — bringing our mission to a second district of Lesotho.",
+      "image": "images/2.jpeg"
+    }
+  ],
+  "blog_posts": [
+    {
+      "date": "June 25, 2024",
+      "title": "A Happy 23rd Birthday to Beautiful Gate Lesotho!",
+      "excerpt": "Twenty-three years of walking in faith, caring for the most vulnerable, and trusting God to provide. We celebrate this milestone with grateful hearts.",
+      "image": "images/3.jpeg",
+      "featured": true
+    },
+    {
+      "date": "December 12, 2022",
+      "title": "It's Graduation Season!",
+      "excerpt": "Our children sang, performed, and received their certificates at a beautiful preschool graduation ceremony at Sefate Sa Bophelo English Medium School.",
+      "image": "images/img1.jpeg",
+      "featured": false
+    },
+    {
+      "date": "March 5, 2021",
+      "title": "A Long-Awaited Celebration",
+      "excerpt": "We celebrated our first adoption ceremony of 2021 — long-term volunteers Thabo and 'Mathapelo Robbert officially welcomed their daughter into their forever family.",
+      "image": "images/img2.jpeg",
+      "featured": false
+    }
+  ],
+  "involvement": [
+    {
+      "icon": "💛",
+      "title": "Give",
+      "description": "Whether a once-off gift or a monthly commitment, your donation sustains daily operations and funds new projects. R6,000 covers one child for a whole month.",
+      "cta": "Donate Now",
+      "link": "#donate",
+      "type": "orange"
+    },
+    {
+      "icon": "🤝",
+      "title": "Volunteer",
+      "description": "We welcome outreach teams, skilled volunteers (plumbing, carpentry, special needs therapy), and a volunteer fundraiser to help grow our international donor base.",
+      "cta": "Get Involved",
+      "link": "#contact",
+      "type": "teal"
+    },
+    {
+      "icon": "🙏",
+      "title": "Pray",
+      "description": "Join our global prayer team. Receive our quarterly newsletter and monthly prayer updates as we trust God together for every child's future.",
+      "cta": "Join Prayer Team",
+      "link": "#contact",
+      "type": "brown"
+    }
+  ],
+  "donate_options": {
+    "amounts": [
+      { "rand": 500, "usd": "~$27", "label": "Feeds a baby for 2 weeks" },
+      { "rand": 1500, "usd": "~$82", "label": "Covers medical for 1 child" },
+      { "rand": 3000, "usd": "~$163", "label": "Half a month of care" },
+      { "rand": 6000, "usd": "~$366", "label": "Full month for 1 child" },
+      { "rand": 12000, "usd": "~$732", "label": "2 children for a month" },
+      { "rand": 0, "usd": "Other", "label": "Choose your own amount" }
+    ],
+    "breakdown": [
+      { "label": "Child Care & Food", "percent": 48, "color": "orange" },
+      { "label": "Staffing", "percent": 35, "color": "teal" },
+      { "label": "Utilities & Maintenance", "percent": 17, "color": "brown" }
+    ]
+  }
+}

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Beautiful Gate Lesotho</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --brown:        #5C3D2E;
+      --brown-dark:   #3E2A1E;
+      --brown-light:  #8B6355;
+      --orange:       #E8843A;
+      --orange-light: #F4A65A;
+      --orange-pale:  #FDF0E4;
+      --teal:         #3DB8C1;
+      --teal-dark:    #2A8A92;
+      --teal-pale:    #E4F7F8;
+      --off-white:    #FAF8F5;
+      --text-dark:    #2D1E16;
+      --text-mid:     #6B4E3D;
+      --text-light:   #A07860;
+      --shadow-md:    0 8px 32px rgba(92,61,46,0.14);
+      --shadow-lg:    0 20px 60px rgba(92,61,46,0.18);
+      --transition:   0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--brown-dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Decorative background blobs */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px; right: -120px;
+      width: 480px; height: 480px;
+      background: radial-gradient(circle, rgba(232,132,58,0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -100px; left: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(61,184,193,0.14) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .auth-wrap {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 440px;
+    }
+    .auth-brand {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .brand-logo {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 1rem;
+      border: 3px solid var(--orange);
+      box-shadow: 0 0 0 6px rgba(232,132,58,0.15);
+    }
+    .brand-logo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--orange-light);
+      letter-spacing: 0.02em;
+    }
+    .brand-name span { color: var(--teal); }
+    .brand-sub {
+      color: var(--brown-light);
+      font-size: 0.82rem;
+      margin-top: 0.3rem;
+    }
+    .auth-card {
+      background: var(--off-white);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .tab-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 0.65rem;
+      border-radius: 8px;
+      border: 2px solid #e0d5ce;
+      background: transparent;
+      color: var(--text-light);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.04em;
+    }
+    .tab-btn.active {
+      background: var(--brown-dark);
+      border-color: var(--brown-dark);
+      color: var(--orange-light);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .auth-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--brown-dark);
+      margin-bottom: 0.3rem;
+    }
+    .auth-card .sub {
+      color: var(--text-light);
+      font-size: 0.82rem;
+      margin-bottom: 1.75rem;
+    }
+    .fg {
+      margin-bottom: 1.1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .fg label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 0.4rem;
+    }
+    .fg input {
+      background: #fff;
+      border: 2px solid #e0d5ce;
+      border-radius: 8px;
+      padding: 0.8rem 1rem;
+      color: var(--text-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      width: 100%;
+      outline: none;
+    }
+    .fg input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(232,132,58,0.12);
+    }
+    .pw-wrap { position: relative; }
+    .pw-wrap input { padding-right: 3rem; }
+    .pw-toggle {
+      position: absolute;
+      right: 0.9rem; top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-auth {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+    }
+    .btn-auth:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-admin { background: var(--teal); }
+    .btn-admin:hover { background: var(--teal-dark); }
+    .error-msg {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #dc2626;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--text-light);
+      font-size: 0.82rem;
+    }
+    .auth-footer a {
+      color: var(--orange);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .auth-footer a:hover { color: var(--orange-light); }
+    .admin-note {
+      background: var(--teal-pale);
+      border: 1px solid rgba(61,184,193,0.3);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      color: var(--teal-dark);
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.04em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="auth-brand">
+    <div class="brand-logo">
+      <img src="images/logo1.jpeg" alt="Beautiful Gate" onerror="this.parentElement.style.background='var(--orange)';this.remove()"/>
+    </div>
+    <div class="brand-name">beautiful<span>gate</span></div>
+    <p class="brand-sub">Lesotho &mdash; Sign in to continue</p>
+  </div>
+
+  <div class="auth-card">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('visitor', this)">Visitor Login</button>
+      <button class="tab-btn" onclick="switchTab('admin', this)">Admin Login</button>
+    </div>
+
+    <!-- VISITOR -->
+    <div class="tab-panel active" id="tab-visitor">
+      <h2>Welcome Back</h2>
+      <p class="sub">Sign in with your username and password.</p>
+      <div class="error-msg" id="v-err"></div>
+      <form onsubmit="doLogin(event,'visitor')" novalidate>
+        <div class="fg">
+          <label for="v-username">Username</label>
+          <input type="text" id="v-username" placeholder="Your username" required/>
+        </div>
+        <div class="fg">
+          <label for="v-password">Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="v-password" placeholder="Your password" required/>
+            <button type="button" class="pw-toggle" onclick="togglePw('v-password',this)">Show</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-auth" id="v-btn">Sign In</button>
+      </form>
+      <div class="auth-footer">No account yet? <a href="register.html">Register here</a></div>
+    </div>
+
+    <!-- ADMIN -->
+    <div class="tab-panel" id="tab-admin">
+      <div class="admin-note">Restricted to authorised administrators only.</div>
+      <h2>Admin Login</h2>
+      <p class="sub">Enter your admin credentials to access the dashboard.</p>
+      <div class="error-msg" id="a-err"></div>
+      <form onsubmit="doLogin(event,'admin')" novalidate>
+        <div class="fg">
+          <label for="a-username">Admin Username</label>
+          <input type="text" id="a-username" placeholder="Admin username" required/>
+        </div>
+        <div class="fg">
+          <label for="a-password">Admin Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="a-password" placeholder="Admin password" required/>
+            <button type="button" class="pw-toggle" onclick="togglePw('a-password',this)">Show</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-auth btn-admin" id="a-btn">Admin Sign In</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var DEV  = 'http://localhost:3000';
+  var PROD = 'https://YOUR-BACKEND.onrender.com';
+  window.API_BASE_URL = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? DEV : PROD;
+})();
+</script>
+<script>
+function togglePw(id, btn) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+  btn.textContent = el.type === 'password' ? 'Show' : 'Hide';
+}
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+async function doLogin(e, role) {
+  e.preventDefault();
+  const isAdmin  = role === 'admin';
+  const username = document.getElementById(isAdmin ? 'a-username' : 'v-username').value.trim();
+  const password = document.getElementById(isAdmin ? 'a-password' : 'v-password').value;
+  const btn      = document.getElementById(isAdmin ? 'a-btn' : 'v-btn');
+  const errId    = isAdmin ? 'a-err' : 'v-err';
+
+  if (!username || !password) { showErr(errId, 'Please enter your credentials.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Signing in...';
+
+  try {
+    const res  = await fetch(window.API_BASE_URL + '/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ username, password, role })
+    });
+    const data = await res.json();
+    if (data.success) {
+      window.location.href = data.redirect;
+    } else {
+      showErr(errId, data.message || 'Login failed.');
+      btn.disabled = false;
+      btn.textContent = isAdmin ? 'Admin Sign In' : 'Sign In';
+    }
+  } catch (err) {
+    showErr(errId, 'Cannot connect to server.');
+    btn.disabled = false;
+    btn.textContent = isAdmin ? 'Admin Sign In' : 'Sign In';
+  }
+}
+</script>
+</body>
+</html>
