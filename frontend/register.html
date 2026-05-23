@@ -6,6 +6,7 @@
   <title>Register — Beautiful Gate Lesotho</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
+    /* Same styles as login.html (keeping consistent) */
     :root {
       --brown:        #5C3D2E;
       --brown-dark:   #3E2A1E;
@@ -31,7 +32,6 @@
       font-family: 'DM Sans', sans-serif;
       background: var(--brown-dark);
       min-height: 100vh;
-      /* KEY FIX: allow scroll */
       overflow-x: hidden;
       overflow-y: auto;
       display: flex;
@@ -232,7 +232,6 @@
       display: none;
     }
 
-    /* ALWAYS VISIBLE sign-in link */
     .auth-footer {
       text-align: center;
       margin-top: 1.25rem;
@@ -364,7 +363,6 @@ async function doRegister(e) {
     const res  = await fetch(window.API_BASE_URL + '/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
       body: JSON.stringify({ fullName, email, username, password })
     });
     const data = await res.json();
