@@ -562,6 +562,40 @@
   window.API_BASE_URL = (location.hostname==='localhost'||location.hostname==='127.0.0.1') ? DEV : PROD;
 })();
 
+/* ── JWT Token Management ── */
+function getAuthToken() {
+  return localStorage.getItem('bgl_auth_token');
+}
+
+function getCurrentUser() {
+  try {
+    const u = localStorage.getItem('bgl_user');
+    return u ? JSON.parse(u) : null;
+  } catch(e) { return null; }
+}
+
+function clearAuth() {
+  localStorage.removeItem('bgl_auth_token');
+  localStorage.removeItem('bgl_user');
+}
+
+/* ── Authenticated fetch wrapper ── */
+async function authFetch(url, options = {}) {
+  const token = getAuthToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers
+  };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return fetch(url, {
+    ...options,
+    headers,
+    credentials: 'omit'
+  });
+}
+
 /* ── Mobile sidebar ── */
 function toggleSidebar() {
   const sidebar  = document.getElementById('sidebar');
@@ -570,16 +604,31 @@ function toggleSidebar() {
   overlay.classList.toggle('open');
 }
 
-/* ── Session check ── */
+/* ── Session check with JWT ── */
 (async function() {
+  const token = getAuthToken();
+  const user = getCurrentUser();
+  
+  if (!token || !user || user.role !== 'admin') {
+    window.location.href = 'login.html';
+    return;
+  }
+  
+  // Verify token with server
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/session', { credentials: 'include' });
+    const res = await fetch(window.API_BASE_URL + '/api/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    });
     const data = await res.json();
-    if (!data.loggedIn || data.user.role !== 'admin') {
+    if (!data.valid) {
+      clearAuth();
       window.location.href = 'login.html';
     }
-  } catch(e) {
-    window.location.href = 'login.html';
+  } catch (err) {
+    // If server unreachable but we have token, assume valid (offline mode)
+    console.warn('Server verify failed, using cached session');
   }
 })();
 
@@ -599,7 +648,6 @@ function switchPanel(name, el) {
   document.getElementById('panel-' + name).classList.add('active');
   document.getElementById('topbar-title').childNodes[0].textContent =
     name.charAt(0).toUpperCase() + name.slice(1) + '\n';
-  // close mobile sidebar after nav
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebar-overlay').classList.remove('open');
   if (name === 'dashboard') { loadStats(); loadUsers(true); }
@@ -625,26 +673,36 @@ function filterTable(bodyId, query) {
   });
 }
 
-/* ── Load stats ── */
+/* ── Load stats (UPDATED with JWT) ── */
 async function loadStats() {
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/stats', { credentials: 'include' });
+    const res  = await authFetch(window.API_BASE_URL + '/api/admin/stats');
     const data = await res.json();
     if (data.success) {
       document.getElementById('stat-users').textContent    = data.data.totalUsers;
       document.getElementById('stat-online').textContent   = data.data.onlineVisitors;
       document.getElementById('stat-messages').textContent = data.data.totalMessages;
       document.getElementById('stat-unread').textContent   = data.data.unreadMessages;
+    } else if (data.message === 'No token provided' || data.message === 'Invalid or expired token') {
+      clearAuth();
+      window.location.href = 'login.html';
     }
   } catch(e) { toast('Error loading stats', true); }
 }
 
-/* ── Load users ── */
+/* ── Load users (UPDATED with JWT) ── */
 async function loadUsers(dashOnly) {
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/users', { credentials: 'include' });
+    const res  = await authFetch(window.API_BASE_URL + '/api/admin/users');
     const data = await res.json();
-    if (!data.success) { toast('Error loading users', true); return; }
+    if (!data.success) { 
+      if (data.message === 'No token provided' || data.message === 'Invalid or expired token') {
+        clearAuth();
+        window.location.href = 'login.html';
+      }
+      toast('Error loading users', true); 
+      return; 
+    }
 
     const dashBody = document.getElementById('dash-users-body');
     const recent = data.data.slice(0, 5);
@@ -671,24 +729,31 @@ async function loadUsers(dashOnly) {
   } catch(e) { toast('Error loading users', true); }
 }
 
-/* ── Delete user ── */
+/* ── Delete user (UPDATED with JWT) ── */
 async function deleteUser(id) {
   if (!confirm('Delete this user? This cannot be undone.')) return;
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/users/' + id,
-                             { method: 'DELETE', credentials: 'include' });
+    const res  = await authFetch(window.API_BASE_URL + '/api/admin/users/' + id,
+                             { method: 'DELETE' });
     const data = await res.json();
     if (data.success) { toast('User deleted.'); loadUsers(false); loadStats(); }
     else toast('Error deleting user.', true);
   } catch(e) { toast('Error deleting user.', true); }
 }
 
-/* ── Load visitors ── */
+/* ── Load visitors (UPDATED with JWT) ── */
 async function loadVisitors() {
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/visitors', { credentials: 'include' });
+    const res  = await authFetch(window.API_BASE_URL + '/api/admin/visitors');
     const data = await res.json();
-    if (!data.success) { toast('Error loading visitors', true); return; }
+    if (!data.success) { 
+      if (data.message === 'No token provided' || data.message === 'Invalid or expired token') {
+        clearAuth();
+        window.location.href = 'login.html';
+      }
+      toast('Error loading visitors', true); 
+      return; 
+    }
     const body = document.getElementById('visitors-body');
     body.innerHTML = data.data.length ? data.data.map((v,i) => `
       <tr>
@@ -703,12 +768,19 @@ async function loadVisitors() {
   } catch(e) { toast('Error loading visitors', true); }
 }
 
-/* ── Load messages ── */
+/* ── Load messages (UPDATED with JWT) ── */
 async function loadMessages() {
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/messages', { credentials: 'include' });
+    const res  = await authFetch(window.API_BASE_URL + '/api/admin/messages');
     const data = await res.json();
-    if (!data.success) { toast('Error loading messages', true); return; }
+    if (!data.success) { 
+      if (data.message === 'No token provided' || data.message === 'Invalid or expired token') {
+        clearAuth();
+        window.location.href = 'login.html';
+      }
+      toast('Error loading messages', true); 
+      return; 
+    }
     const body = document.getElementById('messages-body');
     body.innerHTML = data.data.length ? data.data.map((m,i) => `
       <tr>
@@ -726,33 +798,39 @@ async function loadMessages() {
   } catch(e) { toast('Error loading messages', true); }
 }
 
-/* ── Mark message read ── */
+/* ── Mark message read (UPDATED with JWT) ── */
 async function markRead(id) {
   try {
-    await fetch(window.API_BASE_URL + '/api/admin/messages/' + id + '/read',
-               { method: 'PATCH', credentials: 'include' });
+    await authFetch(window.API_BASE_URL + '/api/admin/messages/' + id + '/read',
+               { method: 'PATCH' });
     toast('Marked as read.'); loadMessages(); loadStats();
   } catch(e) { toast('Error.', true); }
 }
 
-/* ── Delete message ── */
+/* ── Delete message (UPDATED with JWT) ── */
 async function deleteMessage(id) {
   if (!confirm('Delete this message?')) return;
   try {
-    const res  = await fetch(window.API_BASE_URL + '/api/admin/messages/' + id,
-                             { method: 'DELETE', credentials: 'include' });
+    const res  = await authFetch(window.API_BASE_URL + '/api/admin/messages/' + id,
+                             { method: 'DELETE' });
     const data = await res.json();
     if (data.success) { toast('Message deleted.'); loadMessages(); loadStats(); }
     else toast('Error.', true);
   } catch(e) { toast('Error.', true); }
 }
 
-/* ── Logout ── */
+/* ── Logout (UPDATED with JWT) ── */
 async function adminLogout() {
   if (!confirm('Logout from admin panel?')) return;
+  const user = getCurrentUser();
   try {
-    await fetch(window.API_BASE_URL + '/api/logout', { method: 'POST', credentials: 'include' });
+    await fetch(window.API_BASE_URL + '/api/logout', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user?.id })
+    });
   } catch(e) {}
+  clearAuth();
   window.location.href = 'login.html';
 }
 
